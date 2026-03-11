@@ -1,0 +1,664 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Day 1 - KET 备考学习</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+            line-height: 1.6;
+            color: #333;
+            max-width: 900px;
+            margin: 0 auto;
+            padding: 20px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+        }
+        
+        .container {
+            background: white;
+            border-radius: 15px;
+            padding: 30px;
+            box-shadow: 0 10px 40px rgba(0,0,0,0.2);
+        }
+        
+        h1 {
+            color: #667eea;
+            text-align: center;
+            margin-bottom: 10px;
+            font-size: 28px;
+        }
+        
+        .subtitle {
+            text-align: center;
+            color: #666;
+            margin-bottom: 30px;
+            padding-bottom: 20px;
+            border-bottom: 2px dashed #eee;
+        }
+        
+        .section {
+            margin-bottom: 30px;
+            padding: 20px;
+            background: #f8f9fa;
+            border-radius: 10px;
+            border-left: 4px solid #667eea;
+        }
+        
+        .section h2 {
+            color: #667eea;
+            margin-bottom: 15px;
+            font-size: 22px;
+        }
+        
+        .word-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 15px 0;
+            background: white;
+            border-radius: 8px;
+            overflow: hidden;
+        }
+        
+        .word-table th {
+            background: #667eea;
+            color: white;
+            padding: 12px;
+            text-align: left;
+        }
+        
+        .word-table td {
+            padding: 12px;
+            border-bottom: 1px solid #eee;
+        }
+        
+        .word-table tr:hover {
+            background: #f0f0ff;
+        }
+        
+        .question {
+            background: white;
+            padding: 20px;
+            margin: 15px 0;
+            border-radius: 8px;
+            border: 2px solid #e0e0e0;
+            transition: all 0.3s;
+        }
+        
+        .question:hover {
+            border-color: #667eea;
+            box-shadow: 0 2px 10px rgba(102, 126, 234, 0.2);
+        }
+        
+        .question-title {
+            font-weight: bold;
+            color: #333;
+            margin-bottom: 10px;
+            font-size: 16px;
+        }
+        
+        .options {
+            margin: 10px 0;
+        }
+        
+        .option {
+            display: block;
+            margin: 8px 0;
+            padding: 10px 15px;
+            background: #f8f9fa;
+            border: 2px solid #e0e0e0;
+            border-radius: 6px;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+        
+        .option:hover {
+            background: #e8eaff;
+            border-color: #667eea;
+        }
+        
+        .option input[type="radio"] {
+            margin-right: 10px;
+        }
+        
+        .option.selected {
+            background: #667eea;
+            color: white;
+            border-color: #667eea;
+        }
+        
+        .input-answer {
+            width: 100%;
+            padding: 12px;
+            border: 2px solid #e0e0e0;
+            border-radius: 6px;
+            font-size: 16px;
+            margin-top: 10px;
+            transition: all 0.3s;
+        }
+        
+        .input-answer:focus {
+            outline: none;
+            border-color: #667eea;
+            box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.2);
+        }
+        
+        .submit-btn {
+            display: block;
+            width: 100%;
+            padding: 15px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            border: none;
+            border-radius: 8px;
+            font-size: 18px;
+            font-weight: bold;
+            cursor: pointer;
+            margin: 30px 0;
+            transition: transform 0.3s, box-shadow 0.3s;
+        }
+        
+        .submit-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 20px rgba(102, 126, 234, 0.4);
+        }
+        
+        .result-box {
+            display: none;
+            background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
+            color: white;
+            padding: 30px;
+            border-radius: 10px;
+            text-align: center;
+            margin: 30px 0;
+        }
+        
+        .result-box h3 {
+            font-size: 24px;
+            margin-bottom: 15px;
+        }
+        
+        .score {
+            font-size: 48px;
+            font-weight: bold;
+            margin: 20px 0;
+        }
+        
+        .feedback {
+            background: white;
+            color: #333;
+            padding: 20px;
+            border-radius: 8px;
+            margin-top: 20px;
+            text-align: left;
+        }
+        
+        .feedback-item {
+            padding: 10px;
+            margin: 10px 0;
+            border-radius: 6px;
+        }
+        
+        .feedback-correct {
+            background: #d4edda;
+            border-left: 4px solid #28a745;
+        }
+        
+        .feedback-wrong {
+            background: #f8d7da;
+            border-left: 4px solid #dc3545;
+        }
+        
+        .grammar-box {
+            background: white;
+            padding: 15px;
+            border-radius: 8px;
+            margin: 10px 0;
+        }
+        
+        .grammar-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 10px 0;
+        }
+        
+        .grammar-table th, .grammar-table td {
+            padding: 10px;
+            border: 1px solid #e0e0e0;
+            text-align: left;
+        }
+        
+        .grammar-table th {
+            background: #f0f0ff;
+        }
+        
+        .reading-text {
+            background: white;
+            padding: 20px;
+            border-radius: 8px;
+            line-height: 2;
+            font-size: 16px;
+        }
+        
+        .tips {
+            background: #fff3cd;
+            border-left: 4px solid #ffc107;
+            padding: 15px;
+            margin: 15px 0;
+            border-radius: 6px;
+        }
+        
+        .progress-bar {
+            width: 100%;
+            height: 10px;
+            background: #e0e0e0;
+            border-radius: 5px;
+            overflow: hidden;
+            margin: 20px 0;
+        }
+        
+        .progress-fill {
+            height: 100%;
+            background: linear-gradient(90deg, #667eea 0%, #764ba2 100%);
+            width: 0%;
+            transition: width 0.5s;
+        }
+        
+        @media (max-width: 600px) {
+            body {
+                padding: 10px;
+            }
+            
+            .container {
+                padding: 15px;
+            }
+            
+            h1 {
+                font-size: 22px;
+            }
+            
+            .word-table {
+                font-size: 14px;
+            }
+            
+            .word-table th, .word-table td {
+                padding: 8px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>📅 Day 1 - KET 备考学习</h1>
+        <p class="subtitle">主题：Family & People (家庭与人物) | 预计时长：30 分钟</p>
+        
+        <!-- 单词学习 -->
+        <div class="section">
+            <h2>📝 Part 1: 单词学习 (10 分钟)</h2>
+            <p>💡 <strong>发音提示</strong>：请使用词典 App（有道词典/百度翻译）查询以下单词听标准发音并跟读！</p>
+            
+            <table class="word-table">
+                <thead>
+                    <tr>
+                        <th>序号</th>
+                        <th>单词</th>
+                        <th>音标</th>
+                        <th>中文</th>
+                        <th>例句</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr><td>1</td><td><strong>family</strong></td><td>/ˈfæməli/</td><td>家庭</td><td>I have a happy family.</td></tr>
+                    <tr><td>2</td><td><strong>parent</strong></td><td>/ˈpeərənt/</td><td>父母</td><td>My parents love me very much.</td></tr>
+                    <tr><td>3</td><td><strong>brother</strong></td><td>/ˈbrʌðə(r)/</td><td>兄弟</td><td>I have one brother.</td></tr>
+                    <tr><td>4</td><td><strong>sister</strong></td><td>/ˈsɪstə(r)/</td><td>姐妹</td><td>She is my little sister.</td></tr>
+                    <tr><td>5</td><td><strong>grandfather</strong></td><td>/ˈɡrænfɑːðə(r)/</td><td>祖父</td><td>My grandfather tells me stories.</td></tr>
+                    <tr><td>6</td><td><strong>grandmother</strong></td><td>/ˈɡrænmʌðə(r)/</td><td>祖母</td><td>My grandmother cooks well.</td></tr>
+                    <tr><td>7</td><td><strong>uncle</strong></td><td>/ˈʌŋkl/</td><td>叔叔</td><td>My uncle lives in Beijing.</td></tr>
+                    <tr><td>8</td><td><strong>aunt</strong></td><td>/ɑːnt/</td><td>阿姨</td><td>My aunt is a teacher.</td></tr>
+                    <tr><td>9</td><td><strong>cousin</strong></td><td>/ˈkʌzn/</td><td>表兄妹</td><td>My cousin and I play together.</td></tr>
+                    <tr><td>10</td><td><strong>friend</strong></td><td>/frend/</td><td>朋友</td><td>She is my best friend.</td></tr>
+                </tbody>
+            </table>
+            
+            <div class="tips">
+                <strong>🎯 学习方法：</strong>
+                <ol>
+                    <li>用词典 App 播放发音，小朋友跟读 3 遍</li>
+                    <li>遮住中文，看英文说中文</li>
+                    <li>遮住英文，看中文说英文</li>
+                </ol>
+            </div>
+        </div>
+        
+        <!-- 语法学习 -->
+        <div class="section">
+            <h2>📖 Part 2: 语法知识点 (5 分钟)</h2>
+            <h3>一般现在时 (Present Simple)</h3>
+            <p><strong>用法</strong>：表示习惯、经常性动作或事实</p>
+            
+            <div class="grammar-box">
+                <table class="grammar-table">
+                    <tr>
+                        <th>类型</th>
+                        <th>结构</th>
+                        <th>例子</th>
+                    </tr>
+                    <tr>
+                        <td>肯定句</td>
+                        <td>主语 + 动词原形 (三单加 -s/-es)</td>
+                        <td>I go to school. / She goes to school.</td>
+                    </tr>
+                    <tr>
+                        <td>否定句</td>
+                        <td>主语 + don't/doesn't + 动词原形</td>
+                        <td>I don't like apples. / He doesn't like apples.</td>
+                    </tr>
+                    <tr>
+                        <td>疑问句</td>
+                        <td>Do/Does + 主语 + 动词原形？</td>
+                        <td>Do you like English? / Does he like English?</td>
+                    </tr>
+                </table>
+            </div>
+            
+            <div class="tips">
+                <strong>💡 小贴士：</strong>
+                <ul>
+                    <li>第三人称单数（he/she/it）动词要加 <strong>-s</strong> 或 <strong>-es</strong></li>
+                    <li>否定句和疑问句要用 <strong>do/does</strong> 帮忙</li>
+                </ul>
+            </div>
+        </div>
+        
+        <!-- 阅读理解 -->
+        <div class="section">
+            <h2>🎧 Part 3: 阅读理解 (5 分钟)</h2>
+            <div class="reading-text">
+                <p><strong>My Family</strong></p>
+                <p>Hello! My name is Tom. I am 9 years old. I have a big family. There are 6 people in my family: my grandfather, my grandmother, my father, my mother, my sister and me. My grandfather is 65 years old. He likes reading newspapers. My grandmother is 63 years old. She likes cooking. My father is a doctor. My mother is a teacher. My sister is 5 years old. She likes drawing. I love my family!</p>
+            </div>
+            <div class="tips" style="margin-top: 15px;">
+                <strong>📚 生词提示：</strong>newspapers 报纸 | doctor 医生 | teacher 老师 | drawing 画画
+            </div>
+        </div>
+        
+        <!-- 练习题 -->
+        <div class="section">
+            <h2>✍️ Part 4: 练习题 (10 分钟)</h2>
+            <p>请小朋友认真完成以下 15 道题目，完成后点击「提交答案」查看成绩！</p>
+            
+            <form id="quizForm">
+                <!-- 第 1 题 -->
+                <div class="question" data-id="1" data-answer="B">
+                    <div class="question-title">第 1 题：英译中 (2 分)</div>
+                    <p><strong>family</strong> 的中文意思是？</p>
+                    <div class="options">
+                        <label class="option"><input type="radio" name="q1" value="A"> A) 学校</label>
+                        <label class="option"><input type="radio" name="q1" value="B"> B) 家庭</label>
+                        <label class="option"><input type="radio" name="q1" value="C"> C) 朋友</label>
+                    </div>
+                </div>
+                
+                <!-- 第 2 题 -->
+                <div class="question" data-id="2" data-answer="B">
+                    <div class="question-title">第 2 题：中译英 (2 分)</div>
+                    <p><strong>"姐妹"</strong> 的英文是？</p>
+                    <div class="options">
+                        <label class="option"><input type="radio" name="q2" value="A"> A) brother</label>
+                        <label class="option"><input type="radio" name="q2" value="B"> B) sister</label>
+                        <label class="option"><input type="radio" name="q2" value="C"> C) cousin</label>
+                    </div>
+                </div>
+                
+                <!-- 第 3 题 -->
+                <div class="question" data-id="3" data-answer="grandfather">
+                    <div class="question-title">第 3 题：填空补全 (2 分)</div>
+                    <p>My _____ (祖父) tells me stories.</p>
+                    <input type="text" class="input-answer" name="q3" placeholder="请输入答案">
+                </div>
+                
+                <!-- 第 4 题 -->
+                <div class="question" data-id="4" data-answer="uncle">
+                    <div class="question-title">第 4 题：选词填空 (2 分)</div>
+                    <p>My _____ (叔叔) lives in Beijing. (uncle / aunt / cousin)</p>
+                    <input type="text" class="input-answer" name="q4" placeholder="请输入答案">
+                </div>
+                
+                <!-- 第 5 题 -->
+                <div class="question" data-id="5" data-answer="family">
+                    <div class="question-title">第 5 题：选词填空 (2 分)</div>
+                    <p>I have a happy _____. (family / school / book)</p>
+                    <input type="text" class="input-answer" name="q5" placeholder="请输入答案">
+                </div>
+                
+                <!-- 第 6 题 -->
+                <div class="question" data-id="6" data-answer="goes">
+                    <div class="question-title">第 6 题：语法选择 (2 分)</div>
+                    <p>She _____ (go / goes) to school by bus.</p>
+                    <input type="text" class="input-answer" name="q6" placeholder="请输入答案">
+                </div>
+                
+                <!-- 第 7 题 -->
+                <div class="question" data-id="7" data-answer="don't like">
+                    <div class="question-title">第 7 题：改为否定句 (2 分)</div>
+                    <p>I like apples. → I _____ _____ apples.</p>
+                    <input type="text" class="input-answer" name="q7" placeholder="请输入答案">
+                </div>
+                
+                <!-- 第 8 题 -->
+                <div class="question" data-id="8" data-answer="Does">
+                    <div class="question-title">第 8 题：语法选择 (2 分)</div>
+                    <p>_____ he play football? (Do / Does)</p>
+                    <input type="text" class="input-answer" name="q8" placeholder="请输入答案">
+                </div>
+                
+                <!-- 第 9 题 -->
+                <div class="question" data-id="9" data-answer="Do">
+                    <div class="question-title">第 9 题：语法选择 (2 分)</div>
+                    <p>_____ you like English? (Do / Does)</p>
+                    <input type="text" class="input-answer" name="q9" placeholder="请输入答案">
+                </div>
+                
+                <!-- 第 10 题 -->
+                <div class="question" data-id="10" data-answer="doesn't">
+                    <div class="question-title">第 10 题：语法填空 (2 分)</div>
+                    <p>She _____ like milk. (don't / doesn't)</p>
+                    <input type="text" class="input-answer" name="q10" placeholder="请输入答案">
+                </div>
+                
+                <!-- 第 11 题 -->
+                <div class="question" data-id="11" data-answer="B">
+                    <div class="question-title">第 11 题：阅读理解 (2 分)</div>
+                    <p>How old is Tom?</p>
+                    <div class="options">
+                        <label class="option"><input type="radio" name="q11" value="A"> A) 8</label>
+                        <label class="option"><input type="radio" name="q11" value="B"> B) 9</label>
+                        <label class="option"><input type="radio" name="q11" value="C"> C) 10</label>
+                    </div>
+                </div>
+                
+                <!-- 第 12 题 -->
+                <div class="question" data-id="12" data-answer="B">
+                    <div class="question-title">第 12 题：阅读理解 (2 分)</div>
+                    <p>How many people are in Tom's family?</p>
+                    <div class="options">
+                        <label class="option"><input type="radio" name="q12" value="A"> A) 5</label>
+                        <label class="option"><input type="radio" name="q12" value="B"> B) 6</label>
+                        <label class="option"><input type="radio" name="q12" value="C"> C) 7</label>
+                    </div>
+                </div>
+                
+                <!-- 第 13 题 -->
+                <div class="question" data-id="13" data-answer="B">
+                    <div class="question-title">第 13 题：阅读理解 (2 分)</div>
+                    <p>What does Tom's father do?</p>
+                    <div class="options">
+                        <label class="option"><input type="radio" name="q13" value="A"> A) Teacher</label>
+                        <label class="option"><input type="radio" name="q13" value="B"> B) Doctor</label>
+                        <label class="option"><input type="radio" name="q13" value="C"> C) Driver</label>
+                    </div>
+                </div>
+                
+                <!-- 第 14 题 -->
+                <div class="question" data-id="14" data-answer="B">
+                    <div class="question-title">第 14 题：阅读理解 (2 分)</div>
+                    <p>What does Tom's grandmother like?</p>
+                    <div class="options">
+                        <label class="option"><input type="radio" name="q14" value="A"> A) Reading</label>
+                        <label class="option"><input type="radio" name="q14" value="B"> B) Cooking</label>
+                        <label class="option"><input type="radio" name="q14" value="C"> C) Drawing</label>
+                    </div>
+                </div>
+                
+                <!-- 第 15 题 -->
+                <div class="question" data-id="15" data-answer="A">
+                    <div class="question-title">第 15 题：阅读理解 (2 分)</div>
+                    <p>How old is Tom's sister?</p>
+                    <div class="options">
+                        <label class="option"><input type="radio" name="q15" value="A"> A) 5</label>
+                        <label class="option"><input type="radio" name="q15" value="B"> B) 6</label>
+                        <label class="option"><input type="radio" name="q15" value="C"> C) 9</label>
+                    </div>
+                </div>
+                
+                <button type="submit" class="submit-btn">📤 提交答案</button>
+            </form>
+            
+            <!-- 结果显示 -->
+            <div class="result-box" id="resultBox">
+                <h3>🎉 答题完成！</h3>
+                <div class="score" id="scoreDisplay">0 / 30</div>
+                <p id="percentageDisplay">正确率：0%</p>
+                <div class="feedback" id="feedbackBox"></div>
+            </div>
+        </div>
+        
+        <!-- 学习打卡 -->
+        <div class="section">
+            <h2>✅ 学习打卡</h2>
+            <div style="margin: 15px 0;">
+                <label style="display: block; margin: 10px 0;"><input type="checkbox"> 单词学习完成（听发音 + 跟读）</label>
+                <label style="display: block; margin: 10px 0;"><input type="checkbox"> 语法学习完成</label>
+                <label style="display: block; margin: 10px 0;"><input type="checkbox"> 阅读理解完成</label>
+                <label style="display: block; margin: 10px 0;"><input type="checkbox"> 15 道练习题完成</label>
+            </div>
+            <p><strong>学习日期：</strong>2026-03-11</p>
+            <p><strong>实际用时：</strong>_____ 分钟</p>
+            <p><strong>家长签字：</strong>_____________</p>
+        </div>
+        
+        <!-- 明日预告 -->
+        <div class="section" style="border-left-color: #28a745;">
+            <h2 style="color: #28a745;">📌 明日预告</h2>
+            <p><strong>Day 2 主题：</strong>School & Classroom (学校与教室)</p>
+            <p><strong>新词数量：</strong>10 个</p>
+            <p><strong>复习内容：</strong>Day 1 的 10 个单词 (艾宾浩斯第 1 次复习)</p>
+        </div>
+    </div>
+    
+    <script>
+        // 单选按钮样式
+        document.querySelectorAll('.option input[type="radio"]').forEach(input => {
+            input.addEventListener('change', function() {
+                this.closest('.question').querySelectorAll('.option').forEach(opt => {
+                    opt.classList.remove('selected');
+                });
+                this.closest('.option').classList.add('selected');
+            });
+        });
+        
+        // 提交答案
+        document.getElementById('quizForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+            
+            let score = 0;
+            const total = 30;
+            const feedback = [];
+            
+            // 答案和解析
+            const answers = {
+                q1: { answer: 'B', explain: 'family = 家庭' },
+                q2: { answer: 'B', explain: 'sister = 姐妹' },
+                q3: { answer: 'grandfather', explain: 'grandfather = 祖父' },
+                q4: { answer: 'uncle', explain: 'uncle = 叔叔' },
+                q5: { answer: 'family', explain: 'a happy family = 一个幸福的家庭' },
+                q6: { answer: 'goes', explain: '第三人称单数 she，动词加 -es' },
+                q7: { answer: ["don't like", "dont like"], explain: '否定句用 don\'t + 动词原形' },
+                q8: { answer: 'Does', explain: '第三人称单数 he，用 Does' },
+                q9: { answer: 'Do', explain: '主语是 you，用 Do' },
+                q10: { answer: ["doesn't", "doesnt"], explain: '第三人称单数用 doesn\'t' },
+                q11: { answer: 'B', explain: '文中说 I am 9 years old.' },
+                q12: { answer: 'B', explain: '文中说 There are 6 people in my family.' },
+                q13: { answer: 'B', explain: '文中说 My father is a doctor.' },
+                q14: { answer: 'B', explain: '文中说 She likes cooking.' },
+                q15: { answer: 'A', explain: '文中说 My sister is 5 years old.' }
+            };
+            
+            // 批改每道题
+            for (let i = 1; i <= 15; i++) {
+                const qName = 'q' + i;
+                const question = document.querySelector(`.question[data-id="${i}"]`);
+                const correctAnswer = answers[qName].answer;
+                let userAnswer = '';
+                let isCorrect = false;
+                
+                // 获取用户答案
+                const radio = question.querySelector('input[type="radio"]:checked');
+                const textInput = question.querySelector('input[type="text"]');
+                
+                if (radio) {
+                    userAnswer = radio.value;
+                } else if (textInput) {
+                    userAnswer = textInput.value.trim().toLowerCase();
+                }
+                
+                // 判断对错（支持容错）
+                if (Array.isArray(correctAnswer)) {
+                    isCorrect = correctAnswer.some(ans => userAnswer.toLowerCase() === ans.toLowerCase());
+                } else {
+                    isCorrect = userAnswer.toLowerCase() === correctAnswer.toLowerCase();
+                }
+                
+                // 计分
+                if (isCorrect) {
+                    score += 2;
+                    feedback.push(`<div class="feedback-item feedback-correct">✅ 第${i}题：正确</div>`);
+                } else {
+                    const correctText = Array.isArray(correctAnswer) ? correctAnswer[0] : correctAnswer;
+                    feedback.push(`<div class="feedback-item feedback-wrong">❌ 第${i}题：错误 | 正确答案：${correctText} | ${answers[qName].explain}</div>`);
+                }
+            }
+            
+            // 显示结果
+            const percentage = Math.round((score / total) * 100);
+            document.getElementById('scoreDisplay').textContent = `${score} / ${total}`;
+            document.getElementById('percentageDisplay').textContent = `正确率：${percentage}%`;
+            document.getElementById('feedbackBox').innerHTML = feedback.join('');
+            document.getElementById('resultBox').style.display = 'block';
+            
+            // 滚动到结果
+            document.getElementById('resultBox').scrollIntoView({ behavior: 'smooth' });
+            
+            // 根据分数显示不同颜色
+            const resultBox = document.getElementById('resultBox');
+            if (percentage >= 90) {
+                resultBox.style.background = 'linear-gradient(135deg, #11998e 0%, #38ef7d 100%)';
+            } else if (percentage >= 70) {
+                resultBox.style.background = 'linear-gradient(135deg, #667eea 0%, #764ba2 100%)';
+            } else if (percentage >= 60) {
+                resultBox.style.background = 'linear-gradient(135deg, #f093fb 0%, #f5576c 100%)';
+            } else {
+                resultBox.style.background = 'linear-gradient(135deg, #eb3349 0%, #f45c43 100%)';
+            }
+        });
+    </script>
+</body>
+</html>
