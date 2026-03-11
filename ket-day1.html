@@ -674,9 +674,10 @@
     </div>
     
     <script>
-        // Web Speech API 发音功能
+        // Web Speech API 发音功能 - 优化英美纯正发音
         let synth = window.speechSynthesis;
         let isSpeaking = false;
+        let selectedVoice = null;
         
         // 检查浏览器支持
         function checkSpeechSupport() {
@@ -687,27 +688,90 @@
             return true;
         }
         
-        // 朗读文本
-        function speak(text, rate = 0.8) {
+        // 选择最佳英语语音（优先美式，其次英式）
+        function getBestEnglishVoice() {
+            const voices = synth.getVoices();
+            
+            // 优先级 1: 美式英语 - Google US English (最自然)
+            let voice = voices.find(v => 
+                v.name === 'Google US English' || 
+                v.name === 'Samantha' || 
+                v.name === 'Karen'
+            );
+            
+            // 优先级 2: 美式英语 - 任何 en-US 的高质量语音
+            if (!voice) {
+                voice = voices.find(v => 
+                    (v.lang === 'en-US' || v.lang.includes('en-US')) && 
+                    (v.name.includes('Google') || v.name.includes('Premium'))
+                );
+            }
+            
+            // 优先级 3: 英式英语 - Google UK English
+            if (!voice) {
+                voice = voices.find(v => 
+                    v.name === 'Google UK English' || 
+                    v.name === 'Daniel' || 
+                    v.name === 'Oliver'
+                );
+            }
+            
+            // 优先级 4: 任何 en-GB 英式语音
+            if (!voice) {
+                voice = voices.find(v => 
+                    v.lang === 'en-GB' || v.lang.includes('en-GB')
+                );
+            }
+            
+            // 优先级 5: 任何英语语音
+            if (!voice) {
+                voice = voices.find(v => 
+                    v.lang.startsWith('en')
+                );
+            }
+            
+            return voice;
+        }
+        
+        // 初始化语音（页面加载时）
+        function initVoice() {
+            if ('speechSynthesis' in window) {
+                // iOS 需要等待 voiceschanged 事件
+                if (speechSynthesis.onvoiceschanged !== undefined) {
+                    speechSynthesis.onvoiceschanged = function() {
+                        selectedVoice = getBestEnglishVoice();
+                        console.log('Selected voice:', selectedVoice ? selectedVoice.name : 'Default');
+                    };
+                }
+                // 立即尝试获取
+                selectedVoice = getBestEnglishVoice();
+            }
+        }
+        
+        // 朗读文本（使用选定的语音）
+        function speak(text, rate = 0.75) {
             if (!checkSpeechSupport()) return;
             
             // 停止当前播放
             synth.cancel();
             
             const utterance = new SpeechSynthesisUtterance(text);
-            utterance.lang = 'en-US'; // 美式英语
-            utterance.rate = rate; // 语速
+            
+            // 使用选定的最佳语音
+            if (selectedVoice) {
+                utterance.voice = selectedVoice;
+            }
+            
+            // 根据语音类型设置语言
+            if (selectedVoice && selectedVoice.lang) {
+                utterance.lang = selectedVoice.lang;
+            } else {
+                utterance.lang = 'en-US'; // 默认美式
+            }
+            
+            utterance.rate = rate; // 语速（稍慢，适合学习）
             utterance.pitch = 1; // 音调
             utterance.volume = 1; // 音量
-            
-            // 尝试选择英语语音
-            const voices = synth.getVoices();
-            const englishVoice = voices.find(voice => 
-                voice.lang.includes('en-US') || voice.lang.includes('en-GB')
-            );
-            if (englishVoice) {
-                utterance.voice = englishVoice;
-            }
             
             utterance.onstart = function() {
                 isSpeaking = true;
@@ -739,26 +803,28 @@
             
             synth.cancel();
             
+            let delay = 0;
             words.forEach((word, index) => {
-                const utterance = new SpeechSynthesisUtterance(word);
-                utterance.lang = 'en-US';
-                utterance.rate = 0.7; // 稍慢一点
-                utterance.pitch = 1;
+                setTimeout(() => {
+                    const utterance = new SpeechSynthesisUtterance(word);
+                    
+                    if (selectedVoice) {
+                        utterance.voice = selectedVoice;
+                    }
+                    
+                    if (selectedVoice && selectedVoice.lang) {
+                        utterance.lang = selectedVoice.lang;
+                    } else {
+                        utterance.lang = 'en-US';
+                    }
+                    
+                    utterance.rate = 0.7; // 更慢一点，方便跟读
+                    utterance.pitch = 1;
+                    
+                    synth.speak(utterance);
+                }, delay);
                 
-                const voices = synth.getVoices();
-                const englishVoice = voices.find(voice => 
-                    voice.lang.includes('en-US') || voice.lang.includes('en-GB')
-                );
-                if (englishVoice) {
-                    utterance.voice = englishVoice;
-                }
-                
-                // 每个单词之间停顿 1 秒
-                utterance.onstart = function() {
-                    isSpeaking = true;
-                };
-                
-                synth.speak(utterance);
+                delay += 1500; // 每个单词间隔 1.5 秒
             });
             
             isSpeaking = true;
@@ -770,7 +836,7 @@
             
             const text = "Hello! My name is Tom. I am 9 years old. I have a big family. There are 6 people in my family: my grandfather, my grandmother, my father, my mother, my sister and me. My grandfather is 65 years old. He likes reading newspapers. My grandmother is 63 years old. She likes cooking. My father is a doctor. My mother is a teacher. My sister is 5 years old. She likes drawing. I love my family!";
             
-            speak(text, 0.75); // 稍慢语速
+            speak(text, 0.7); // 更慢语速，方便跟读
         }
         
         // 停止播放
@@ -781,12 +847,18 @@
             }
         }
         
-        // 加载语音列表（iOS 需要）
+        // 页面加载时初始化语音
         window.addEventListener('load', function() {
-            if ('speechSynthesis' in window) {
-                speechSynthesis.getVoices();
-            }
+            initVoice();
+            // iOS 延迟加载 voices
+            setTimeout(initVoice, 100);
+            setTimeout(initVoice, 500);
         });
+        
+        // 监听 voices 变化（某些浏览器需要）
+        if (speechSynthesis.onvoiceschanged !== undefined) {
+            speechSynthesis.onvoiceschanged = initVoice;
+        }
         
         // 单选按钮样式
         document.querySelectorAll('.option input[type="radio"]').forEach(input => {
