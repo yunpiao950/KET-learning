@@ -83,6 +83,36 @@
             background: #f0f0ff;
         }
         
+        .speaker-btn {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            border: none;
+            color: white;
+            padding: 6px 12px;
+            border-radius: 20px;
+            cursor: pointer;
+            font-size: 14px;
+            transition: all 0.3s;
+            margin: 2px;
+        }
+        
+        .speaker-btn:hover {
+            transform: scale(1.1);
+            box-shadow: 0 4px 15px rgba(102, 126, 234, 0.4);
+        }
+        
+        .speaker-btn:active {
+            transform: scale(0.95);
+        }
+        
+        .speaker-btn.playing {
+            animation: pulse 1s infinite;
+        }
+        
+        @keyframes pulse {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0.6; }
+        }
+        
         .question {
             background: white;
             padding: 20px;
@@ -255,20 +285,29 @@
             border-radius: 6px;
         }
         
-        .progress-bar {
-            width: 100%;
-            height: 10px;
-            background: #e0e0e0;
-            border-radius: 5px;
-            overflow: hidden;
-            margin: 20px 0;
+        .audio-control {
+            background: #e7f3ff;
+            border-left: 4px solid #2196F3;
+            padding: 15px;
+            margin: 15px 0;
+            border-radius: 6px;
         }
         
-        .progress-fill {
-            height: 100%;
-            background: linear-gradient(90deg, #667eea 0%, #764ba2 100%);
-            width: 0%;
-            transition: width 0.5s;
+        .audio-control button {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            border: none;
+            color: white;
+            padding: 10px 20px;
+            border-radius: 25px;
+            cursor: pointer;
+            font-size: 14px;
+            margin: 5px;
+            transition: all 0.3s;
+        }
+        
+        .audio-control button:hover {
+            transform: scale(1.05);
+            box-shadow: 0 4px 15px rgba(102, 126, 234, 0.4);
         }
         
         @media (max-width: 600px) {
@@ -302,7 +341,13 @@
         <!-- 单词学习 -->
         <div class="section">
             <h2>📝 Part 1: 单词学习 (10 分钟)</h2>
-            <p>💡 <strong>发音提示</strong>：请使用词典 App（有道词典/百度翻译）查询以下单词听标准发音并跟读！</p>
+            
+            <div class="audio-control">
+                <strong>🔊 发音控制：</strong>
+                <button onclick="speakAllWords()">📢 朗读全部单词</button>
+                <button onclick="stopSpeaking()">⏹️ 停止播放</button>
+                <p style="margin-top: 10px; font-size: 14px; color: #666;">💡 点击表格中的 🔊 按钮可以播放单个单词或例句的发音</p>
+            </div>
             
             <table class="word-table">
                 <thead>
@@ -315,25 +360,86 @@
                     </tr>
                 </thead>
                 <tbody>
-                    <tr><td>1</td><td><strong>family</strong></td><td>/ˈfæməli/</td><td>家庭</td><td>I have a happy family.</td></tr>
-                    <tr><td>2</td><td><strong>parent</strong></td><td>/ˈpeərənt/</td><td>父母</td><td>My parents love me very much.</td></tr>
-                    <tr><td>3</td><td><strong>brother</strong></td><td>/ˈbrʌðə(r)/</td><td>兄弟</td><td>I have one brother.</td></tr>
-                    <tr><td>4</td><td><strong>sister</strong></td><td>/ˈsɪstə(r)/</td><td>姐妹</td><td>She is my little sister.</td></tr>
-                    <tr><td>5</td><td><strong>grandfather</strong></td><td>/ˈɡrænfɑːðə(r)/</td><td>祖父</td><td>My grandfather tells me stories.</td></tr>
-                    <tr><td>6</td><td><strong>grandmother</strong></td><td>/ˈɡrænmʌðə(r)/</td><td>祖母</td><td>My grandmother cooks well.</td></tr>
-                    <tr><td>7</td><td><strong>uncle</strong></td><td>/ˈʌŋkl/</td><td>叔叔</td><td>My uncle lives in Beijing.</td></tr>
-                    <tr><td>8</td><td><strong>aunt</strong></td><td>/ɑːnt/</td><td>阿姨</td><td>My aunt is a teacher.</td></tr>
-                    <tr><td>9</td><td><strong>cousin</strong></td><td>/ˈkʌzn/</td><td>表兄妹</td><td>My cousin and I play together.</td></tr>
-                    <tr><td>10</td><td><strong>friend</strong></td><td>/frend/</td><td>朋友</td><td>She is my best friend.</td></tr>
+                    <tr>
+                        <td>1</td>
+                        <td><strong>family</strong> <button class="speaker-btn" onclick="speak('family')">🔊</button></td>
+                        <td>/ˈfæməli/</td>
+                        <td>家庭</td>
+                        <td>I have a happy family. <button class="speaker-btn" onclick="speak('I have a happy family.')">🔊</button></td>
+                    </tr>
+                    <tr>
+                        <td>2</td>
+                        <td><strong>parent</strong> <button class="speaker-btn" onclick="speak('parent')">🔊</button></td>
+                        <td>/ˈpeərənt/</td>
+                        <td>父母</td>
+                        <td>My parents love me very much. <button class="speaker-btn" onclick="speak('My parents love me very much.')">🔊</button></td>
+                    </tr>
+                    <tr>
+                        <td>3</td>
+                        <td><strong>brother</strong> <button class="speaker-btn" onclick="speak('brother')">🔊</button></td>
+                        <td>/ˈbrʌðə(r)/</td>
+                        <td>兄弟</td>
+                        <td>I have one brother. <button class="speaker-btn" onclick="speak('I have one brother.')">🔊</button></td>
+                    </tr>
+                    <tr>
+                        <td>4</td>
+                        <td><strong>sister</strong> <button class="speaker-btn" onclick="speak('sister')">🔊</button></td>
+                        <td>/ˈsɪstə(r)/</td>
+                        <td>姐妹</td>
+                        <td>She is my little sister. <button class="speaker-btn" onclick="speak('She is my little sister.')">🔊</button></td>
+                    </tr>
+                    <tr>
+                        <td>5</td>
+                        <td><strong>grandfather</strong> <button class="speaker-btn" onclick="speak('grandfather')">🔊</button></td>
+                        <td>/ˈɡrænfɑːðə(r)/</td>
+                        <td>祖父</td>
+                        <td>My grandfather tells me stories. <button class="speaker-btn" onclick="speak('My grandfather tells me stories.')">🔊</button></td>
+                    </tr>
+                    <tr>
+                        <td>6</td>
+                        <td><strong>grandmother</strong> <button class="speaker-btn" onclick="speak('grandmother')">🔊</button></td>
+                        <td>/ˈɡrænmʌðə(r)/</td>
+                        <td>祖母</td>
+                        <td>My grandmother cooks well. <button class="speaker-btn" onclick="speak('My grandmother cooks well.')">🔊</button></td>
+                    </tr>
+                    <tr>
+                        <td>7</td>
+                        <td><strong>uncle</strong> <button class="speaker-btn" onclick="speak('uncle')">🔊</button></td>
+                        <td>/ˈʌŋkl/</td>
+                        <td>叔叔</td>
+                        <td>My uncle lives in Beijing. <button class="speaker-btn" onclick="speak('My uncle lives in Beijing.')">🔊</button></td>
+                    </tr>
+                    <tr>
+                        <td>8</td>
+                        <td><strong>aunt</strong> <button class="speaker-btn" onclick="speak('aunt')">🔊</button></td>
+                        <td>/ɑːnt/</td>
+                        <td>阿姨</td>
+                        <td>My aunt is a teacher. <button class="speaker-btn" onclick="speak('My aunt is a teacher.')">🔊</button></td>
+                    </tr>
+                    <tr>
+                        <td>9</td>
+                        <td><strong>cousin</strong> <button class="speaker-btn" onclick="speak('cousin')">🔊</button></td>
+                        <td>/ˈkʌzn/</td>
+                        <td>表兄妹</td>
+                        <td>My cousin and I play together. <button class="speaker-btn" onclick="speak('My cousin and I play together.')">🔊</button></td>
+                    </tr>
+                    <tr>
+                        <td>10</td>
+                        <td><strong>friend</strong> <button class="speaker-btn" onclick="speak('friend')">🔊</button></td>
+                        <td>/frend/</td>
+                        <td>朋友</td>
+                        <td>She is my best friend. <button class="speaker-btn" onclick="speak('She is my best friend.')">🔊</button></td>
+                    </tr>
                 </tbody>
             </table>
             
             <div class="tips">
                 <strong>🎯 学习方法：</strong>
                 <ol>
-                    <li>用词典 App 播放发音，小朋友跟读 3 遍</li>
+                    <li>点击 🔊 按钮听发音，小朋友跟读 3 遍</li>
                     <li>遮住中文，看英文说中文</li>
                     <li>遮住英文，看中文说英文</li>
+                    <li>点击「朗读全部单词」可以连续播放所有单词</li>
                 </ol>
             </div>
         </div>
@@ -354,17 +460,17 @@
                     <tr>
                         <td>肯定句</td>
                         <td>主语 + 动词原形 (三单加 -s/-es)</td>
-                        <td>I go to school. / She goes to school.</td>
+                        <td>I go to school. <button class="speaker-btn" onclick="speak('I go to school.')">🔊</button> / She goes to school. <button class="speaker-btn" onclick="speak('She goes to school.')">🔊</button></td>
                     </tr>
                     <tr>
                         <td>否定句</td>
                         <td>主语 + don't/doesn't + 动词原形</td>
-                        <td>I don't like apples. / He doesn't like apples.</td>
+                        <td>I don't like apples. <button class="speaker-btn" onclick="speak('I dont like apples.')">🔊</button> / He doesn't like apples. <button class="speaker-btn" onclick="speak('He doesnt like apples.')">🔊</button></td>
                     </tr>
                     <tr>
                         <td>疑问句</td>
                         <td>Do/Does + 主语 + 动词原形？</td>
-                        <td>Do you like English? / Does he like English?</td>
+                        <td>Do you like English? <button class="speaker-btn" onclick="speak('Do you like English?')">🔊</button> / Does he like English? <button class="speaker-btn" onclick="speak('Does he like English?')">🔊</button></td>
                     </tr>
                 </table>
             </div>
@@ -381,6 +487,9 @@
         <!-- 阅读理解 -->
         <div class="section">
             <h2>🎧 Part 3: 阅读理解 (5 分钟)</h2>
+            <div class="audio-control">
+                <button onclick="speakReading()">📖 朗读文章</button>
+            </div>
             <div class="reading-text">
                 <p><strong>My Family</strong></p>
                 <p>Hello! My name is Tom. I am 9 years old. I have a big family. There are 6 people in my family: my grandfather, my grandmother, my father, my mother, my sister and me. My grandfather is 65 years old. He likes reading newspapers. My grandmother is 63 years old. She likes cooking. My father is a doctor. My mother is a teacher. My sister is 5 years old. She likes drawing. I love my family!</p>
@@ -565,6 +674,120 @@
     </div>
     
     <script>
+        // Web Speech API 发音功能
+        let synth = window.speechSynthesis;
+        let isSpeaking = false;
+        
+        // 检查浏览器支持
+        function checkSpeechSupport() {
+            if (!('speechSynthesis' in window)) {
+                alert('您的浏览器不支持语音播放功能，请使用 Chrome、Safari 或 Edge 浏览器。');
+                return false;
+            }
+            return true;
+        }
+        
+        // 朗读文本
+        function speak(text, rate = 0.8) {
+            if (!checkSpeechSupport()) return;
+            
+            // 停止当前播放
+            synth.cancel();
+            
+            const utterance = new SpeechSynthesisUtterance(text);
+            utterance.lang = 'en-US'; // 美式英语
+            utterance.rate = rate; // 语速
+            utterance.pitch = 1; // 音调
+            utterance.volume = 1; // 音量
+            
+            // 尝试选择英语语音
+            const voices = synth.getVoices();
+            const englishVoice = voices.find(voice => 
+                voice.lang.includes('en-US') || voice.lang.includes('en-GB')
+            );
+            if (englishVoice) {
+                utterance.voice = englishVoice;
+            }
+            
+            utterance.onstart = function() {
+                isSpeaking = true;
+            };
+            
+            utterance.onend = function() {
+                isSpeaking = false;
+            };
+            
+            synth.speak(utterance);
+        }
+        
+        // 朗读全部单词
+        function speakAllWords() {
+            if (!checkSpeechSupport()) return;
+            
+            const words = [
+                'family',
+                'parent',
+                'brother',
+                'sister',
+                'grandfather',
+                'grandmother',
+                'uncle',
+                'aunt',
+                'cousin',
+                'friend'
+            ];
+            
+            synth.cancel();
+            
+            words.forEach((word, index) => {
+                const utterance = new SpeechSynthesisUtterance(word);
+                utterance.lang = 'en-US';
+                utterance.rate = 0.7; // 稍慢一点
+                utterance.pitch = 1;
+                
+                const voices = synth.getVoices();
+                const englishVoice = voices.find(voice => 
+                    voice.lang.includes('en-US') || voice.lang.includes('en-GB')
+                );
+                if (englishVoice) {
+                    utterance.voice = englishVoice;
+                }
+                
+                // 每个单词之间停顿 1 秒
+                utterance.onstart = function() {
+                    isSpeaking = true;
+                };
+                
+                synth.speak(utterance);
+            });
+            
+            isSpeaking = true;
+        }
+        
+        // 朗读阅读文章
+        function speakReading() {
+            if (!checkSpeechSupport()) return;
+            
+            const text = "Hello! My name is Tom. I am 9 years old. I have a big family. There are 6 people in my family: my grandfather, my grandmother, my father, my mother, my sister and me. My grandfather is 65 years old. He likes reading newspapers. My grandmother is 63 years old. She likes cooking. My father is a doctor. My mother is a teacher. My sister is 5 years old. She likes drawing. I love my family!";
+            
+            speak(text, 0.75); // 稍慢语速
+        }
+        
+        // 停止播放
+        function stopSpeaking() {
+            if (synth) {
+                synth.cancel();
+                isSpeaking = false;
+            }
+        }
+        
+        // 加载语音列表（iOS 需要）
+        window.addEventListener('load', function() {
+            if ('speechSynthesis' in window) {
+                speechSynthesis.getVoices();
+            }
+        });
+        
         // 单选按钮样式
         document.querySelectorAll('.option input[type="radio"]').forEach(input => {
             input.addEventListener('change', function() {
