@@ -3,241 +3,112 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>KET 备考助手 - 学习中心</title>
+    <title>KET 备考 100 天学习计划</title>
     <style>
         * { margin: 0; padding: 0; box-sizing: border-box; }
-        body {
-            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-            min-height: 100vh;
-            padding: 40px 20px;
-        }
-        .container {
-            max-width: 800px;
-            margin: 0 auto;
-            background: white;
-            border-radius: 20px;
-            padding: 40px;
-            box-shadow: 0 20px 60px rgba(0,0,0,0.3);
-        }
-        h1 {
-            color: #667eea;
-            text-align: center;
-            font-size: 32px;
-            margin-bottom: 10px;
-        }
-        .subtitle {
-            text-align: center;
-            color: #666;
-            margin-bottom: 40px;
-        }
-        .day-card {
-            background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);
-            border-radius: 15px;
-            padding: 25px;
-            margin: 20px 0;
-            border-left: 5px solid #667eea;
-            transition: transform 0.3s, box-shadow 0.3s;
-        }
-        .day-card:hover {
-            transform: translateY(-5px);
-            box-shadow: 0 10px 30px rgba(102, 126, 234, 0.3);
-        }
-        .day-card h2 {
-            color: #667eea;
-            margin-bottom: 10px;
-            font-size: 24px;
-        }
-        .day-card p {
-            color: #555;
-            margin: 8px 0;
-            line-height: 1.8;
-        }
-        .day-card .status {
-            display: inline-block;
-            padding: 5px 15px;
-            border-radius: 20px;
-            font-size: 14px;
-            font-weight: bold;
-            margin-top: 15px;
-        }
-        .status.available {
-            background: #d4edda;
-            color: #155724;
-        }
-        .status.coming {
-            background: #fff3cd;
-            color: #856404;
-        }
-        .btn {
-            display: inline-block;
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-            color: white;
-            padding: 12px 30px;
-            border-radius: 25px;
-            text-decoration: none;
-            font-weight: bold;
-            margin-top: 15px;
-            transition: transform 0.3s;
-        }
-        .btn:hover {
-            transform: scale(1.05);
-        }
-        .info-box {
-            background: #e7f3ff;
-            border-left: 5px solid #2196F3;
-            padding: 20px;
-            border-radius: 8px;
-            margin: 30px 0;
-        }
-        .info-box h3 {
-            color: #1976D2;
-            margin-bottom: 10px;
-        }
-        .info-box ul {
-            margin-left: 20px;
-            color: #555;
-        }
-        .info-box li {
-            margin: 8px 0;
-        }
+        body { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); min-height: 100vh; padding: 20px; }
+        .container { max-width: 1200px; margin: 0 auto; background: white; border-radius: 20px; padding: 30px; box-shadow: 0 20px 60px rgba(0,0,0,0.3); }
+        h1 { color: #667eea; text-align: center; font-size: 32px; margin-bottom: 10px; }
+        .subtitle { text-align: center; color: #666; margin-bottom: 30px; }
+        .stage { margin: 30px 0; }
+        .stage-title { background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); color: white; padding: 15px 20px; border-radius: 10px; margin-bottom: 15px; font-size: 20px; }
+        .day-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(100px, 1fr)); gap: 10px; }
+        .day-link { display: block; background: #f8f9fa; border: 2px solid #e9ecef; border-radius: 8px; padding: 12px; text-align: center; text-decoration: none; color: #333; transition: all 0.3s; }
+        .day-link:hover { background: #667eea; color: white; transform: translateY(-2px); box-shadow: 0 5px 15px rgba(102,126,234,0.3); }
+        .day-link.done { border-color: #28a745; background: #d4edda; }
+        .day-link.current { border-color: #ffc107; background: #fff3cd; }
+        .info-box { background: #e7f3ff; border-left: 5px solid #2196F3; padding: 20px; border-radius: 8px; margin: 20px 0; }
+        .info-box h3 { color: #1976D2; margin-bottom: 10px; }
+        .progress-bar { background: #e9ecef; border-radius: 10px; height: 30px; margin: 20px 0; overflow: hidden; }
+        .progress-fill { background: linear-gradient(90deg, #28a745, #20c997); height: 100%; width: 10%; display: flex; align-items: center; justify-content: center; color: white; font-weight: bold; }
+        .stats { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 15px; margin: 20px 0; }
+        .stat-card { background: #f8f9fa; padding: 20px; border-radius: 10px; text-align: center; border-left: 4px solid #667eea; }
+        .stat-number { font-size: 32px; font-weight: bold; color: #667eea; }
+        .stat-label { color: #666; margin-top: 5px; }
     </style>
 </head>
 <body>
     <div class="container">
-        <h1>📚 KET 备考助手</h1>
-        <p class="subtitle">小学英语学习中心</p>
+        <h1>📚 KET 备考 100 天学习计划</h1>
+        <p class="subtitle">小学英语学习中心 - 完整课程导航</p>
         
         <div class="info-box">
             <h3>💡 使用说明</h3>
-            <ul>
-                <li>点击下方「开始学习」按钮进入学习页面</li>
-                <li>每个学习页面包含：单词、语法、阅读、练习题</li>
-                <li>完成练习后点击「提交答案」自动评分</li>
+            <ul style="margin-left: 20px; color: #555;">
+                <li>点击下方任意天数进入学习页面</li>
+                <li>每个页面包含：单词（语音）+ 语法 + 阅读 + 15 道练习题</li>
+                <li>绿色 = 已完成 | 黄色 = 当前学习 | 灰色 = 待学习</li>
                 <li>建议每天学习 30 分钟，坚持打卡</li>
             </ul>
         </div>
         
-        <div class="day-card">
-            <h2>📅 Day 1 - Family & People</h2>
-            <p><strong>主题：</strong>家庭与人物</p>
-            <p><strong>词汇量：</strong>10 个新词</p>
-            <p><strong>语法：</strong>一般现在时</p>
-            <p><strong>练习题：</strong>15 道（满分 30 分）</p>
-            <span class="status available">✅ 已完成</span>
-            <br>
-            <a href="ket-day1.html" class="btn">🚀 开始学习</a>
+        <div class="stats">
+            <div class="stat-card"><div class="stat-number">100</div><div class="stat-label">总天数</div></div>
+            <div class="stat-card"><div class="stat-number">1000+</div><div class="stat-label">核心词汇</div></div>
+            <div class="stat-card"><div class="stat-number">1500</div><div class="stat-label">练习题</div></div>
+            <div class="stat-card"><div class="stat-number">30</div><div class="stat-label">语法知识点</div></div>
         </div>
         
-        <div class="day-card">
-            <h2>📅 Day 2 - School & Classroom</h2>
-            <p><strong>主题：</strong>学校与教室</p>
-            <p><strong>词汇量：</strong>10 个新词</p>
-            <p><strong>语法：</strong>冠词 (a/an/the)</p>
-            <p><strong>练习题：</strong>15 道</p>
-            <span class="status available">✅ 已完成</span>
-            <br>
-            <a href="ket-day2.html" class="btn">🚀 开始学习</a>
+        <div class="progress-bar"><div class="progress-fill" style="width: 10%">Day 1-10</div></div>
+        
+        <div class="stage">
+            <div class="stage-title">🌱 第一阶段：基础词汇 (Day 1-30)</div>
+            <div class="day-grid">
+                <script>
+                    for(let i=1; i<=30; i++) {
+                        const status = i<=10 ? 'done' : (i<=30 ? 'current' : '');
+                        document.write(`<a href="ket-day${i}.html" class="day-link ${status}">Day ${i}</a>`);
+                    }
+                </script>
+            </div>
         </div>
         
-        <div class="day-card">
-            <h2>📅 Day 3 - Food & Drink</h2>
-            <p><strong>主题：</strong>食物与饮料</p>
-            <p><strong>词汇量：</strong>10 个新词</p>
-            <p><strong>语法：</strong>可数/不可数名词</p>
-            <p><strong>练习题：</strong>15 道</p>
-            <span class="status available">✅ 已完成</span>
-            <br>
-            <a href="ket-day3.html" class="btn">🚀 开始学习</a>
+        <div class="stage">
+            <div class="stage-title">📖 第二阶段：专项训练 (Day 31-60)</div>
+            <div class="day-grid">
+                <script>
+                    for(let i=31; i<=60; i++) {
+                        document.write(`<a href="ket-day${i}.html" class="day-link">Day ${i}</a>`);
+                    }
+                </script>
+            </div>
         </div>
         
-        <div class="day-card">
-            <h2>📅 Day 4 - Animals</h2>
-            <p><strong>主题：</strong>动物</p>
-            <p><strong>词汇量：</strong>10 个新词</p>
-            <p><strong>语法：</strong>现在进行时</p>
-            <p><strong>练习题：</strong>15 道</p>
-            <span class="status available">✅ 已完成</span>
-            <br>
-            <a href="ket-day4.html" class="btn">🚀 开始学习</a>
+        <div class="stage">
+            <div class="stage-title">🎯 第三阶段：模拟冲刺 (Day 61-80)</div>
+            <div class="day-grid">
+                <script>
+                    for(let i=61; i<=80; i++) {
+                        document.write(`<a href="ket-day${i}.html" class="day-link">Day ${i}</a>`);
+                    }
+                </script>
+            </div>
         </div>
         
-        <div class="day-card">
-            <h2>📅 Day 5 - Colors & Clothes</h2>
-            <p><strong>主题：</strong>颜色与服装</p>
-            <p><strong>词汇量：</strong>10 个新词</p>
-            <p><strong>语法：</strong>形容词的用法</p>
-            <p><strong>练习题：</strong>15 道</p>
-            <span class="status available">✅ 已完成</span>
-            <br>
-            <a href="ket-day5.html" class="btn">🚀 开始学习</a>
+        <div class="stage">
+            <div class="stage-title">🏆 第四阶段：总复习 (Day 81-100)</div>
+            <div class="day-grid">
+                <script>
+                    for(let i=81; i<=100; i++) {
+                        document.write(`<a href="ket-day${i}.html" class="day-link">Day ${i}</a>`);
+                    }
+                </script>
+            </div>
         </div>
         
-        <div class="day-card">
-            <h2>📅 Day 6 - Numbers & Time</h2>
-            <p><strong>主题：</strong>数字与时间</p>
-            <p><strong>词汇量：</strong>10 个新词</p>
-            <p><strong>语法：</strong>时间的表达</p>
-            <p><strong>练习题：</strong>15 道</p>
-            <span class="status available">✅ 已完成</span>
-            <br>
-            <a href="ket-day6.html" class="btn">🚀 开始学习</a>
+        <div class="info-box" style="background: #d4edda; border-left-color: #28a745;">
+            <h3 style="color: #155724;">✅ 学习建议</h3>
+            <ul style="margin-left: 20px; color: #155724;">
+                <li>Day 1-30: 每天学习 10 个新单词 + 1 个语法点</li>
+                <li>Day 31-60: 听力/阅读/写作专项训练</li>
+                <li>Day 61-80: 模拟试题 + 高频考点</li>
+                <li>Day 81-100: 总复习 + 错题回顾</li>
+            </ul>
         </div>
         
-        <div class="day-card">
-            <h2>📅 Day 7 - Sports & Hobbies</h2>
-            <p><strong>主题：</strong>运动与爱好</p>
-            <p><strong>词汇量：</strong>10 个新词</p>
-            <p><strong>语法：</strong>like/love/enjoy + v-ing</p>
-            <p><strong>练习题：</strong>15 道</p>
-            <span class="status available">✅ 已完成</span>
-            <br>
-            <a href="ket-day7.html" class="btn">🚀 开始学习</a>
-        </div>
-        
-        <div class="day-card">
-            <h2>📅 Day 8 - Places & Directions</h2>
-            <p><strong>主题：</strong>地点与方向</p>
-            <p><strong>词汇量：</strong>10 个新词</p>
-            <p><strong>语法：</strong>问路与指路</p>
-            <p><strong>练习题：</strong>15 道</p>
-            <span class="status available">✅ 已完成</span>
-            <br>
-            <a href="ket-day8.html" class="btn">🚀 开始学习</a>
-        </div>
-        
-        <div class="day-card">
-            <h2>📅 Day 9 - Weather & Seasons</h2>
-            <p><strong>主题：</strong>天气与季节</p>
-            <p><strong>词汇量：</strong>10 个新词</p>
-            <p><strong>语法：</strong>天气表达法</p>
-            <p><strong>练习题：</strong>15 道</p>
-            <span class="status available">✅ 已完成</span>
-            <br>
-            <a href="ket-day9.html" class="btn">🚀 开始学习</a>
-        </div>
-        
-        <div class="day-card">
-            <h2>📅 Day 10 - Jobs & Occupations</h2>
-            <p><strong>主题：</strong>职业与工作</p>
-            <p><strong>词汇量：</strong>10 个新词</p>
-            <p><strong>语法：</strong>询问与回答职业</p>
-            <p><strong>练习题：</strong>15 道</p>
-            <span class="status available">✅ 已完成</span>
-            <br>
-            <a href="ket-day10.html" class="btn">🚀 开始学习</a>
-        </div>
-        
-        <div class="info-box">
-            <h3>🎉 学习进度</h3>
-            <p><strong>已学单词：</strong>100 个核心词汇</p>
-            <p><strong>已学语法：</strong>一般现在时、现在进行时、冠词、形容词、时间表达等</p>
-            <p><strong>练习题数：</strong>150 道（Day 1-10）</p>
-        </div>
-        
-        <div style="text-align: center; margin-top: 40px; padding-top: 20px; border-top: 2px dashed #eee; color: #999;">
-            <p>📖 建议每天学习 30 分钟，坚持打卡</p>
-            <p>💪 完成前 10 天后，进入复习阶段！</p>
+        <div style="text-align: center; margin-top: 30px; padding-top: 20px; border-top: 2px dashed #eee; color: #999;">
+            <p>📖 KET 备考 100 天学习计划</p>
+            <p>💪 坚持就是胜利！</p>
         </div>
     </div>
 </body>
