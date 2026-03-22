@@ -5,111 +5,1156 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Day 2 - KET 备考学习</title>
     <style>
-        body { font-family: Arial, sans-serif; max-width: 900px; margin: 0 auto; padding: 20px; line-height: 1.6; }
-        h1 { color: #2c5aa0; } h2 { color: #4a90d9; border-bottom: 2px solid #4a90d9; padding-bottom: 10px; }
-        table { width: 100%; border-collapse: collapse; margin: 15px 0; }
-        th, td { border: 1px solid #ddd; padding: 12px 8px; text-align: left; }
-        th { background-color: #4a90d9; color: white; }
-        tr:nth-child(even) { background-color: #f9f9f9; }
-        .tip { background-color: #fff3cd; border-left: 4px solid #ffc107; padding: 15px; margin: 15px 0; }
-        .exercise { background-color: #f0f7ff; padding: 15px; margin: 10px 0; border-radius: 5px; }
-        .checkbox-list { list-style: none; padding: 0; }
-        .checkbox-list li { margin: 8px 0; }
-        .preview { background-color: #e8f5e9; padding: 15px; border-radius: 5px; margin-top: 20px; }
-        button { background-color: #4a90d9; color: white; border: none; padding: 10px 20px; border-radius: 5px; cursor: pointer; margin: 5px; }
-        button:hover { background-color: #3a7bc8; }
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+            line-height: 1.6;
+            color: #333;
+            max-width: 900px;
+            margin: 0 auto;
+            padding: 20px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+        }
+        
+        .container {
+            background: white;
+            border-radius: 15px;
+            padding: 30px;
+            box-shadow: 0 10px 40px rgba(0,0,0,0.2);
+        }
+        
+        h1 {
+            color: #667eea;
+            text-align: center;
+            margin-bottom: 10px;
+            font-size: 28px;
+        }
+        
+        .subtitle {
+            text-align: center;
+            color: #666;
+            margin-bottom: 30px;
+            padding-bottom: 20px;
+            border-bottom: 2px dashed #eee;
+        }
+        
+        .section {
+            margin-bottom: 30px;
+            padding: 20px;
+            background: #f8f9fa;
+            border-radius: 10px;
+            border-left: 4px solid #667eea;
+        }
+        
+        .section h2 {
+            color: #667eea;
+            margin-bottom: 15px;
+            font-size: 22px;
+        }
+        
+        .word-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 15px 0;
+            background: white;
+            border-radius: 8px;
+            overflow: hidden;
+        }
+        
+        .word-table th {
+            background: #667eea;
+            color: white;
+            padding: 12px;
+            text-align: left;
+        }
+        
+        .word-table td {
+            padding: 12px;
+            border-bottom: 1px solid #eee;
+        }
+        
+        .word-table tr:hover {
+            background: #f0f0ff;
+        }
+        
+        .speaker-btn {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            border: none;
+            color: white;
+            padding: 6px 12px;
+            border-radius: 20px;
+            cursor: pointer;
+            font-size: 14px;
+            transition: all 0.3s;
+            margin: 2px;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+        }
+        
+        .speaker-btn:hover {
+            transform: scale(1.1);
+            box-shadow: 0 4px 15px rgba(102, 126, 234, 0.4);
+        }
+        
+        .speaker-btn:active {
+            transform: scale(0.95);
+        }
+        
+        .speaker-btn.playing {
+            animation: pulse 1s infinite;
+        }
+        
+        @keyframes pulse {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0.6; }
+        }
+        
+        .question {
+            background: white;
+            padding: 20px;
+            margin: 15px 0;
+            border-radius: 8px;
+            border: 2px solid #e0e0e0;
+            transition: all 0.3s;
+        }
+        
+        .question:hover {
+            border-color: #667eea;
+            box-shadow: 0 2px 10px rgba(102, 126, 234, 0.2);
+        }
+        
+        .question-title {
+            font-weight: bold;
+            color: #333;
+            margin-bottom: 10px;
+            font-size: 16px;
+        }
+        
+        .options {
+            margin: 10px 0;
+        }
+        
+        .option {
+            display: block;
+            margin: 8px 0;
+            padding: 10px 15px;
+            background: #f8f9fa;
+            border: 2px solid #e0e0e0;
+            border-radius: 6px;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+        
+        .option:hover {
+            background: #e8eaff;
+            border-color: #667eea;
+        }
+        
+        .option input[type="radio"] {
+            margin-right: 10px;
+        }
+        
+        .option.selected {
+            background: #667eea;
+            color: white;
+            border-color: #667eea;
+        }
+        
+        .input-answer {
+            width: 100%;
+            padding: 12px;
+            border: 2px solid #e0e0e0;
+            border-radius: 6px;
+            font-size: 16px;
+            margin-top: 10px;
+            transition: all 0.3s;
+        }
+        
+        .input-answer:focus {
+            outline: none;
+            border-color: #667eea;
+            box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.2);
+        }
+        
+        .submit-btn {
+            display: block;
+            width: 100%;
+            padding: 15px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            border: none;
+            border-radius: 8px;
+            font-size: 18px;
+            font-weight: bold;
+            cursor: pointer;
+            margin: 30px 0;
+            transition: transform 0.3s, box-shadow 0.3s;
+        }
+        
+        .submit-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 20px rgba(102, 126, 234, 0.4);
+        }
+        
+        .result-box {
+            display: none;
+            background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
+            color: white;
+            padding: 30px;
+            border-radius: 10px;
+            text-align: center;
+            margin: 30px 0;
+        }
+        
+        .result-box h3 {
+            font-size: 24px;
+            margin-bottom: 15px;
+        }
+        
+        .score {
+            font-size: 48px;
+            font-weight: bold;
+            margin: 20px 0;
+        }
+        
+        .feedback {
+            background: white;
+            color: #333;
+            padding: 20px;
+            border-radius: 8px;
+            margin-top: 20px;
+            text-align: left;
+        }
+        
+        .feedback-item {
+            padding: 10px;
+            margin: 10px 0;
+            border-radius: 6px;
+        }
+        
+        .feedback-correct {
+            background: #d4edda;
+            border-left: 4px solid #28a745;
+        }
+        
+        .feedback-wrong {
+            background: #f8d7da;
+            border-left: 4px solid #dc3545;
+        }
+        
+        .grammar-box {
+            background: white;
+            padding: 15px;
+            border-radius: 8px;
+            margin: 10px 0;
+        }
+        
+        .grammar-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 10px 0;
+        }
+        
+        .grammar-table th, .grammar-table td {
+            padding: 10px;
+            border: 1px solid #e0e0e0;
+            text-align: left;
+        }
+        
+        .grammar-table th {
+            background: #f0f0ff;
+        }
+        
+        .reading-text {
+            background: white;
+            padding: 20px;
+            border-radius: 8px;
+            line-height: 2;
+            font-size: 16px;
+        }
+        
+        .tips {
+            background: #fff3cd;
+            border-left: 4px solid #ffc107;
+            padding: 15px;
+            margin: 15px 0;
+            border-radius: 6px;
+        }
+        
+        .audio-control {
+            background: #e7f3ff;
+            border-left: 4px solid #2196F3;
+            padding: 15px;
+            margin: 15px 0;
+            border-radius: 6px;
+            display: flex;
+            flex-wrap: wrap;
+            align-items: center;
+            gap: 10px;
+        }
+        
+        .audio-control button {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            border: none;
+            color: white;
+            padding: 10px 20px;
+            border-radius: 25px;
+            cursor: pointer;
+            font-size: 14px;
+            transition: all 0.3s;
+            display: inline-flex;
+            align-items: center;
+            gap: 5px;
+        }
+        
+        .audio-control button:hover {
+            transform: scale(1.05);
+            box-shadow: 0 4px 15px rgba(102, 126, 234, 0.4);
+        }
+        
+        .audio-control .voice-status {
+            font-size: 12px;
+            color: #666;
+            margin-left: 10px;
+        }
+        
+        .section-read-btn {
+            background: linear-gradient(135deg, #11998e 0%, #38ef7d 100%);
+            border: none;
+            color: white;
+            padding: 8px 16px;
+            border-radius: 20px;
+            cursor: pointer;
+            font-size: 13px;
+            margin-left: 10px;
+            transition: all 0.3s;
+            display: inline-flex;
+            align-items: center;
+            gap: 5px;
+        }
+        
+        .section-read-btn:hover {
+            transform: scale(1.05);
+            box-shadow: 0 4px 15px rgba(17, 153, 142, 0.4);
+        }
+        
+        @media (max-width: 600px) {
+            body {
+                padding: 10px;
+            }
+            
+            .container {
+                padding: 15px;
+            }
+            
+            h1 {
+                font-size: 22px;
+            }
+            
+            .word-table {
+                font-size: 14px;
+            }
+            
+            .word-table th, .word-table td {
+                padding: 8px;
+            }
+            
+            .audio-control {
+                flex-direction: column;
+                align-items: flex-start;
+            }
+        }
     </style>
 </head>
 <body>
-    <h1>📚 Day 2 - KET 备考学习</h1>
-    <p><strong>主题：School & Classroom (学校与教室)</strong> | <strong>预计时长：30 分钟</strong></p>
-
-    <h2>📝 Part 1: 单词学习 (10 分钟)</h2>
-    <table>
-        <tr><th>序号</th><th>单词</th><th>音标</th><th>中文</th><th>例句</th></tr>
-        <tr><td>1</td><td>school</td><td>/skuːl/</td><td>学校</td><td>I go to school every day.</td></tr>
-        <tr><td>2</td><td>classroom</td><td>/ˈklɑːsruːm/</td><td>教室</td><td>Our classroom is big and bright.</td></tr>
-        <tr><td>3</td><td>teacher</td><td>/ˈtiːtʃə(r)/</td><td>老师</td><td>My teacher is very kind.</td></tr>
-        <tr><td>4</td><td>student</td><td>/ˈstjuːdnt/</td><td>学生</td><td>She is a good student.</td></tr>
-        <tr><td>5</td><td>desk</td><td>/desk/</td><td>书桌</td><td>My desk is near the window.</td></tr>
-        <tr><td>6</td><td>chair</td><td>/tʃeə(r)/</td><td>椅子</td><td>Please sit on the chair.</td></tr>
-        <tr><td>7</td><td>book</td><td>/bʊk/</td><td>书</td><td>I have many books.</td></tr>
-        <tr><td>8</td><td>pen</td><td>/pen/</td><td>钢笔</td><td>Can I borrow your pen?</td></tr>
-        <tr><td>9</td><td>pencil</td><td>/ˈpensl/</td><td>铅笔</td><td>I write with a pencil.</td></tr>
-        <tr><td>10</td><td>rubber</td><td>/ˈrʌbə(r)/</td><td>橡皮</td><td>I need a rubber to correct mistakes.</td></tr>
-    </table>
-
-    <h2>📖 Part 2: 语法知识点 (5 分钟)</h2>
-    <h3>冠词 (Articles): a/an/the</h3>
-    <table>
-        <tr><th>类型</th><th>用法</th><th>例子</th></tr>
-        <tr><td>a</td><td>用于辅音音素开头的单词前</td><td>a book, a pen, a desk</td></tr>
-        <tr><td>an</td><td>用于元音音素开头的单词前</td><td>an apple, an eraser, an hour</td></tr>
-        <tr><td>the</td><td>特指某个人或物</td><td>The teacher is in the classroom.</td></tr>
-    </table>
-    <div class="tip">
-        <strong>💡 小贴士：</strong>
-        <ul>
-            <li>a/an 用于泛指，the 用于特指</li>
-            <li>第一次提到用 a/an，再次提到用 the</li>
-            <li>独一无二的东西前用 the (the sun, the moon)</li>
-        </ul>
+    <div class="container">
+        <h1>📅 Day 2 - KET 备考学习</h1>
+        <p class="subtitle">主题：School & Classroom (学校与教室) | 预计时长：30 分钟</p>
+        
+        <!-- 单词学习 -->
+        <div class="section">
+            <h2>📝 Part 1: 单词学习 (10 分钟)
+                <button class="section-read-btn" onclick="speakSection1()">🔊 朗读本部分</button>
+            </h2>
+            
+            <div class="audio-control">
+                <button onclick="speakAllWords()">📢 朗读全部单词</button>
+                <button onclick="stopSpeaking()">⏹️ 停止播放</button>
+                <span class="voice-status" id="voiceStatus">🎤 加载中...</span>
+            </div>
+            
+            <table class="word-table">
+                <thead>
+                    <tr>
+                        <th>序号</th>
+                        <th>单词</th>
+                        <th>音标</th>
+                        <th>中文</th>
+                        <th>例句</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>1</td>
+                        <td><strong>school</strong> <button class="speaker-btn" onclick="speak('school')" title="播放发音">🔊</button></td>
+                        <td>/skuːl/</td>
+                        <td>学校</td>
+                        <td>I go to school every day. <button class="speaker-btn" onclick="speak('I go to school every day.')" title="播放例句">🔊</button></td>
+                    </tr>
+                    <tr>
+                        <td>2</td>
+                        <td><strong>classroom</strong> <button class="speaker-btn" onclick="speak('classroom')" title="播放发音">🔊</button></td>
+                        <td>/ˈklɑːsruːm/</td>
+                        <td>教室</td>
+                        <td>Our classroom is big and bright. <button class="speaker-btn" onclick="speak('Our classroom is big and bright.')" title="播放例句">🔊</button></td>
+                    </tr>
+                    <tr>
+                        <td>3</td>
+                        <td><strong>teacher</strong> <button class="speaker-btn" onclick="speak('teacher')" title="播放发音">🔊</button></td>
+                        <td>/ˈtiːtʃə(r)/</td>
+                        <td>老师</td>
+                        <td>My teacher is very kind. <button class="speaker-btn" onclick="speak('My teacher is very kind.')" title="播放例句">🔊</button></td>
+                    </tr>
+                    <tr>
+                        <td>4</td>
+                        <td><strong>student</strong> <button class="speaker-btn" onclick="speak('student')" title="播放发音">🔊</button></td>
+                        <td>/ˈstjuːdnt/</td>
+                        <td>学生</td>
+                        <td>She is a good student. <button class="speaker-btn" onclick="speak('She is a good student.')" title="播放例句">🔊</button></td>
+                    </tr>
+                    <tr>
+                        <td>5</td>
+                        <td><strong>desk</strong> <button class="speaker-btn" onclick="speak('desk')" title="播放发音">🔊</button></td>
+                        <td>/desk/</td>
+                        <td>书桌</td>
+                        <td>My desk is near the window. <button class="speaker-btn" onclick="speak('My desk is near the window.')" title="播放例句">🔊</button></td>
+                    </tr>
+                    <tr>
+                        <td>6</td>
+                        <td><strong>chair</strong> <button class="speaker-btn" onclick="speak('chair')" title="播放发音">🔊</button></td>
+                        <td>/tʃeə(r)/</td>
+                        <td>椅子</td>
+                        <td>Please sit on the chair. <button class="speaker-btn" onclick="speak('Please sit on the chair.')" title="播放例句">🔊</button></td>
+                    </tr>
+                    <tr>
+                        <td>7</td>
+                        <td><strong>book</strong> <button class="speaker-btn" onclick="speak('book')" title="播放发音">🔊</button></td>
+                        <td>/bʊk/</td>
+                        <td>书</td>
+                        <td>I have many books. <button class="speaker-btn" onclick="speak('I have many books.')" title="播放例句">🔊</button></td>
+                    </tr>
+                    <tr>
+                        <td>8</td>
+                        <td><strong>pen</strong> <button class="speaker-btn" onclick="speak('pen')" title="播放发音">🔊</button></td>
+                        <td>/pen/</td>
+                        <td>钢笔</td>
+                        <td>Can I borrow your pen? <button class="speaker-btn" onclick="speak('Can I borrow your pen?')" title="播放例句">🔊</button></td>
+                    </tr>
+                    <tr>
+                        <td>9</td>
+                        <td><strong>pencil</strong> <button class="speaker-btn" onclick="speak('pencil')" title="播放发音">🔊</button></td>
+                        <td>/ˈpensl/</td>
+                        <td>铅笔</td>
+                        <td>I write with a pencil. <button class="speaker-btn" onclick="speak('I write with a pencil.')" title="播放例句">🔊</button></td>
+                    </tr>
+                    <tr>
+                        <td>10</td>
+                        <td><strong>rubber</strong> <button class="speaker-btn" onclick="speak('rubber')" title="播放发音">🔊</button></td>
+                        <td>/ˈrʌbə(r)/</td>
+                        <td>橡皮</td>
+                        <td>I need a rubber to correct mistakes. <button class="speaker-btn" onclick="speak('I need a rubber to correct mistakes.')" title="播放例句">🔊</button></td>
+                    </tr>
+                </tbody>
+            </table>
+            
+            <div class="tips">
+                <strong>🎯 学习方法：</strong>
+                <ol>
+                    <li>点击 🔊 按钮听发音，小朋友跟读 3 遍</li>
+                    <li>遮住中文，看英文说中文</li>
+                    <li>遮住英文，看中文说英文</li>
+                    <li>点击「朗读全部单词」可以连续播放所有单词</li>
+                </ol>
+            </div>
+        </div>
+        
+        <!-- 语法学习 -->
+        <div class="section">
+            <h2>📖 Part 2: 语法知识点 (5 分钟)
+                <button class="section-read-btn" onclick="speakSection2()">🔊 朗读本部分</button>
+            </h2>
+            <h3>冠词 (Articles): a/an/the</h3>
+            
+            <div class="audio-control">
+                <button onclick="speakGrammarExamples()">📚 朗读语法例句</button>
+            </div>
+            
+            <div class="grammar-box">
+                <table class="grammar-table">
+                    <tr>
+                        <th>类型</th>
+                        <th>用法</th>
+                        <th>例子</th>
+                    </tr>
+                    <tr>
+                        <td><strong>a</strong></td>
+                        <td>用于辅音音素开头的单词前</td>
+                        <td>
+                            <button class="speaker-btn" onclick="speak('a book')" title="播放">🔊</button> a book
+                            <button class="speaker-btn" onclick="speak('a pen')" title="播放">🔊</button> a pen
+                            <button class="speaker-btn" onclick="speak('a desk')" title="播放">🔊</button> a desk
+                        </td>
+                    </tr>
+                    <tr>
+                        <td><strong>an</strong></td>
+                        <td>用于元音音素开头的单词前</td>
+                        <td>
+                            <button class="speaker-btn" onclick="speak('an apple')" title="播放">🔊</button> an apple
+                            <button class="speaker-btn" onclick="speak('an eraser')" title="播放">🔊</button> an eraser
+                            <button class="speaker-btn" onclick="speak('an hour')" title="播放">🔊</button> an hour
+                        </td>
+                    </tr>
+                    <tr>
+                        <td><strong>the</strong></td>
+                        <td>特指某个人或物</td>
+                        <td>
+                            <button class="speaker-btn" onclick="speak('The teacher is in the classroom.')" title="播放">🔊</button> The teacher is in the classroom.
+                        </td>
+                    </tr>
+                </table>
+            </div>
+            
+            <div class="tips">
+                <strong>💡 小贴士：</strong>
+                <ul>
+                    <li><strong>a/an</strong> 用于泛指，<strong>the</strong> 用于特指</li>
+                    <li>第一次提到用 a/an，再次提到用 the</li>
+                    <li>独一无二的东西前用 the (the sun, the moon)</li>
+                </ul>
+            </div>
+        </div>
+        
+        <!-- 阅读理解 -->
+        <div class="section">
+            <h2>🎧 Part 3: 阅读理解 (5 分钟)
+                <button class="section-read-btn" onclick="speakSection3()">🔊 朗读本部分</button>
+            </h2>
+            <div class="audio-control">
+                <button onclick="speakReading()">📖 朗读文章</button>
+                <button onclick="speakReadingSlow()">🐢 慢速朗读</button>
+            </div>
+            <div class="reading-text">
+                <p><strong>My School Day</strong></p>
+                <p>Hello! My name is Lucy. I am 10 years old. I go to Green Primary School. My classroom is on the second floor. It is big and clean. There are 25 students in my class. My teacher's name is Miss Wang. She teaches us English. I have a desk and a chair. My desk is blue. I have many books and pencils. I like my school very much!</p>
+            </div>
+            <div class="tips" style="margin-top: 15px;">
+                <strong>📚 生词提示：</strong>primary 小学的 | clean 干净的 | teaches 教 (teach 的第三人称单数)
+            </div>
+        </div>
+        
+        <!-- 练习题 -->
+        <div class="section">
+            <h2>✍️ Part 4: 练习题 (10 分钟)</h2>
+            <p>请小朋友认真完成以下 15 道题目，完成后点击「提交答案」查看成绩！</p>
+            
+            <form id="quizForm">
+                <!-- 第 1 题 -->
+                <div class="question" data-id="1" data-answer="B">
+                    <div class="question-title">第 1 题：选择正确的冠词 (2 分)</div>
+                    <p>I have ___ apple in my bag.</p>
+                    <div class="options">
+                        <label class="option"><input type="radio" name="q1" value="A"> A) a</label>
+                        <label class="option"><input type="radio" name="q1" value="B"> B) an</label>
+                        <label class="option"><input type="radio" name="q1" value="C"> C) the</label>
+                    </div>
+                </div>
+                
+                <!-- 第 2 题 -->
+                <div class="question" data-id="2" data-answer="C">
+                    <div class="question-title">第 2 题：选择正确的冠词 (2 分)</div>
+                    <p>___ sun is very hot today.</p>
+                    <div class="options">
+                        <label class="option"><input type="radio" name="q2" value="A"> A) A</label>
+                        <label class="option"><input type="radio" name="q2" value="B"> B) An</label>
+                        <label class="option"><input type="radio" name="q2" value="C"> C) The</label>
+                    </div>
+                </div>
+                
+                <!-- 第 3 题 -->
+                <div class="question" data-id="3" data-answer="A">
+                    <div class="question-title">第 3 题：选择正确的冠词 (2 分)</div>
+                    <p>She is ___ teacher.</p>
+                    <div class="options">
+                        <label class="option"><input type="radio" name="q3" value="A"> A) a</label>
+                        <label class="option"><input type="radio" name="q3" value="B"> B) an</label>
+                        <label class="option"><input type="radio" name="q3" value="C"> C) the</label>
+                    </div>
+                </div>
+                
+                <!-- 第 4 题 -->
+                <div class="question" data-id="4" data-answer="C">
+                    <div class="question-title">第 4 题：选择正确的冠词 (2 分)</div>
+                    <p>Can you pass me ___ pen on the desk?</p>
+                    <div class="options">
+                        <label class="option"><input type="radio" name="q4" value="A"> A) a</label>
+                        <label class="option"><input type="radio" name="q4" value="B"> B) an</label>
+                        <label class="option"><input type="radio" name="q4" value="C"> C) the</label>
+                    </div>
+                </div>
+                
+                <!-- 第 5 题 -->
+                <div class="question" data-id="5" data-answer="B">
+                    <div class="question-title">第 5 题：选择正确的冠词 (2 分)</div>
+                    <p>He wants to buy ___ umbrella.</p>
+                    <div class="options">
+                        <label class="option"><input type="radio" name="q5" value="A"> A) a</label>
+                        <label class="option"><input type="radio" name="q5" value="B"> B) an</label>
+                        <label class="option"><input type="radio" name="q5" value="C"> C) the</label>
+                    </div>
+                </div>
+                
+                <!-- 第 6 题 -->
+                <div class="question" data-id="6" data-answer="B">
+                    <div class="question-title">第 6 题：单项选择 (2 分)</div>
+                    <p>There ___ 25 students in my class.</p>
+                    <div class="options">
+                        <label class="option"><input type="radio" name="q6" value="A"> A) is</label>
+                        <label class="option"><input type="radio" name="q6" value="B"> B) are</label>
+                        <label class="option"><input type="radio" name="q6" value="C"> C) am</label>
+                    </div>
+                </div>
+                
+                <!-- 第 7 题 -->
+                <div class="question" data-id="7" data-answer="A">
+                    <div class="question-title">第 7 题：单项选择 (2 分)</div>
+                    <p>My classroom ___ on the second floor.</p>
+                    <div class="options">
+                        <label class="option"><input type="radio" name="q7" value="A"> A) is</label>
+                        <label class="option"><input type="radio" name="q7" value="B"> B) are</label>
+                        <label class="option"><input type="radio" name="q7" value="C"> C) be</label>
+                    </div>
+                </div>
+                
+                <!-- 第 8 题 -->
+                <div class="question" data-id="8" data-answer="B">
+                    <div class="question-title">第 8 题：单项选择 (2 分)</div>
+                    <p>She ___ English very well.</p>
+                    <div class="options">
+                        <label class="option"><input type="radio" name="q8" value="A"> A) teach</label>
+                        <label class="option"><input type="radio" name="q8" value="B"> B) teaches</label>
+                        <label class="option"><input type="radio" name="q8" value="C"> C) teaching</label>
+                    </div>
+                </div>
+                
+                <!-- 第 9 题 -->
+                <div class="question" data-id="9" data-answer="A">
+                    <div class="question-title">第 9 题：单项选择 (2 分)</div>
+                    <p>I go to school ___ day.</p>
+                    <div class="options">
+                        <label class="option"><input type="radio" name="q9" value="A"> A) every</label>
+                        <label class="option"><input type="radio" name="q9" value="B"> B) all</label>
+                        <label class="option"><input type="radio" name="q9" value="C"> C) each</label>
+                    </div>
+                </div>
+                
+                <!-- 第 10 题 -->
+                <div class="question" data-id="10" data-answer="B">
+                    <div class="question-title">第 10 题：单项选择 (2 分)</div>
+                    <p>This is ___ book.</p>
+                    <div class="options">
+                        <label class="option"><input type="radio" name="q10" value="A"> A) I</label>
+                        <label class="option"><input type="radio" name="q10" value="B"> B) my</label>
+                        <label class="option"><input type="radio" name="q10" value="C"> C) me</label>
+                    </div>
+                </div>
+                
+                <!-- 第 11 题 -->
+                <div class="question" data-id="11" data-answer="B">
+                    <div class="question-title">第 11 题：阅读理解 (2 分)</div>
+                    <p>How old is Lucy?</p>
+                    <div class="options">
+                        <label class="option"><input type="radio" name="q11" value="A"> A) 9</label>
+                        <label class="option"><input type="radio" name="q11" value="B"> B) 10</label>
+                        <label class="option"><input type="radio" name="q11" value="C"> C) 11</label>
+                    </div>
+                </div>
+                
+                <!-- 第 12 题 -->
+                <div class="question" data-id="12" data-answer="B">
+                    <div class="question-title">第 12 题：阅读理解 (2 分)</div>
+                    <p>What is the name of Lucy's school?</p>
+                    <div class="options">
+                        <label class="option"><input type="radio" name="q12" value="A"> A) Red Primary School</label>
+                        <label class="option"><input type="radio" name="q12" value="B"> B) Green Primary School</label>
+                        <label class="option"><input type="radio" name="q12" value="C"> C) Blue Primary School</label>
+                    </div>
+                </div>
+                
+                <!-- 第 13 题 -->
+                <div class="question" data-id="13" data-answer="B">
+                    <div class="question-title">第 13 题：阅读理解 (2 分)</div>
+                    <p>Where is the classroom?</p>
+                    <div class="options">
+                        <label class="option"><input type="radio" name="q13" value="A"> A) First floor</label>
+                        <label class="option"><input type="radio" name="q13" value="B"> B) Second floor</label>
+                        <label class="option"><input type="radio" name="q13" value="C"> C) Third floor</label>
+                    </div>
+                </div>
+                
+                <!-- 第 14 题 -->
+                <div class="question" data-id="14" data-answer="B">
+                    <div class="question-title">第 14 题：阅读理解 (2 分)</div>
+                    <p>How many students are in the class?</p>
+                    <div class="options">
+                        <label class="option"><input type="radio" name="q14" value="A"> A) 20</label>
+                        <label class="option"><input type="radio" name="q14" value="B"> B) 25</label>
+                        <label class="option"><input type="radio" name="q14" value="C"> C) 30</label>
+                    </div>
+                </div>
+                
+                <!-- 第 15 题 -->
+                <div class="question" data-id="15" data-answer="B">
+                    <div class="question-title">第 15 题：阅读理解 (2 分)</div>
+                    <p>What color is Lucy's desk?</p>
+                    <div class="options">
+                        <label class="option"><input type="radio" name="q15" value="A"> A) Red</label>
+                        <label class="option"><input type="radio" name="q15" value="B"> B) Blue</label>
+                        <label class="option"><input type="radio" name="q15" value="C"> C) Green</label>
+                    </div>
+                </div>
+                
+                <button type="submit" class="submit-btn">📤 提交答案</button>
+            </form>
+            
+            <!-- 结果显示 -->
+            <div class="result-box" id="resultBox">
+                <h3>🎉 答题完成！</h3>
+                <div class="score" id="scoreDisplay">0 / 30</div>
+                <p id="percentageDisplay">正确率：0%</p>
+                <div class="feedback" id="feedbackBox"></div>
+            </div>
+        </div>
+        
+        <!-- 学习打卡 -->
+        <div class="section">
+            <h2>✅ 学习打卡</h2>
+            <div style="margin: 15px 0;">
+                <label style="display: block; margin: 10px 0;"><input type="checkbox"> 单词学习完成（听发音 + 跟读）</label>
+                <label style="display: block; margin: 10px 0;"><input type="checkbox"> 语法学习完成</label>
+                <label style="display: block; margin: 10px 0;"><input type="checkbox"> 阅读理解完成</label>
+                <label style="display: block; margin: 10px 0;"><input type="checkbox"> 15 道练习题完成</label>
+            </div>
+            <p><strong>学习日期：</strong>_____________</p>
+            <p><strong>实际用时：</strong>_____ 分钟</p>
+            <p><strong>家长签字：</strong>_____________</p>
+        </div>
+        
+        <!-- 明日预告 -->
+        <div class="section" style="border-left-color: #28a745;">
+            <h2 style="color: #28a745;">📌 明日预告</h2>
+            <p><strong>Day 3 主题：</strong>Food & Drink (食物与饮料)</p>
+            <p><strong>新词数量：</strong>10 个</p>
+            <p><strong>复习内容：</strong>Day 1 的 10 个单词 (艾宾浩斯第 2 次复习) + Day 2 的 10 个单词 (艾宾浩斯第 1 次复习)</p>
+        </div>
+        
+        <!-- 导航链接 -->
+        <div style="text-align: center; margin-top: 30px; padding-top: 20px; border-top: 2px dashed #eee;">
+            <a href="ket-day1.html" style="color: #667eea; text-decoration: none; margin: 0 15px;">⬅️ Day 1</a>
+            <a href="ket-day3.html" style="color: #667eea; text-decoration: none; margin: 0 15px;">Day 3 ➡️</a>
+        </div>
     </div>
-
-    <h2>🎧 Part 3: 阅读理解 (5 分钟)</h2>
-    <div style="background-color: #f9f9f9; padding: 15px; border-radius: 5px;">
-        <h4>My School Day</h4>
-        <p>Hello! My name is Lucy. I am 10 years old. I go to Green Primary School. My classroom is on the second floor. It is big and clean. There are 25 students in my class. My teacher's name is Miss Wang. She teaches us English. I have a desk and a chair. My desk is blue. I have many books and pencils. I like my school very much!</p>
-        <p><strong>📚 生词提示：</strong>primary 小学的 | clean 干净的 | teaches 教 (teach 的第三人称单数)</p>
-    </div>
-
-    <h2>✍️ Part 4: 练习题 (10 分钟)</h2>
     
-    <div class="exercise">
-        <h4>一、选择正确的冠词 (a/an/the) (5 题)</h4>
-        <p>1. I have ___ apple in my bag. (A) a (B) an (C) the</p>
-        <p>2. ___ sun is very hot today. (A) A (B) An (C) The</p>
-        <p>3. She is ___ teacher. (A) a (B) an (C) the</p>
-        <p>4. Can you pass me ___ pen on the desk? (A) a (B) an (C) the</p>
-        <p>5. He wants to buy ___ umbrella. (A) a (B) an (C) the</p>
-    </div>
-
-    <div class="exercise">
-        <h4>二、单项选择 (5 题)</h4>
-        <p>6. There ___ 25 students in my class. (A) is (B) are (C) am</p>
-        <p>7. My classroom ___ on the second floor. (A) is (B) are (C) be</p>
-        <p>8. She ___ English very well. (A) teach (B) teaches (C) teaching</p>
-        <p>9. I go to school ___ day. (A) every (B) all (C) each</p>
-        <p>10. This is ___ book. (A) I (B) my (C) me</p>
-    </div>
-
-    <div class="exercise">
-        <h4>三、阅读理解 (5 题)</h4>
-        <p>11. How old is Lucy? (A) 9 (B) 10 (C) 11</p>
-        <p>12. What is the name of Lucy's school? (A) Red Primary School (B) Green Primary School (C) Blue Primary School</p>
-        <p>13. Where is the classroom? (A) First floor (B) Second floor (C) Third floor</p>
-        <p>14. How many students are in the class? (A) 20 (B) 25 (C) 30</p>
-        <p>15. What color is Lucy's desk? (A) Red (B) Blue (C) Green</p>
-    </div>
-
-    <h2>✅ 学习打卡</h2>
-    <ul class="checkbox-list">
-        <li>☐ 单词学习完成（听发音 + 跟读）</li>
-        <li>☐ 语法学习完成</li>
-        <li>☐ 阅读理解完成</li>
-        <li>☐ 15 道练习题完成</li>
-    </ul>
-    <p><strong>学习日期：</strong>_____________ &nbsp;&nbsp; <strong>实际用时：</strong>_____ 分钟 &nbsp;&nbsp; <strong>家长签字：</strong>_____________</p>
-
-    <div class="preview">
-        <h3>📌 明日预告</h3>
-        <p><strong>Day 3 主题：</strong>Food & Drink (食物与饮料)</p>
-        <p><strong>新词数量：</strong>10 个</p>
-        <p><strong>复习内容：</strong>Day 1 的 10 个单词 (艾宾浩斯第 2 次复习) + Day 2 的 10 个单词 (艾宾浩斯第 1 次复习)</p>
-    </div>
-
-    <p style="text-align: center; margin-top: 30px; color: #666;">
-        <a href="ket-day1.html">⬅️ Day 1</a> | <a href="ket-day3.html">Day 3 ➡️</a>
-    </p>
+    <script>
+        // ============================================
+        // Web Speech API - 高质量美式英语发音
+        // ============================================
+        let synth = window.speechSynthesis;
+        let isSpeaking = false;
+        let selectedVoice = null;
+        let voiceLoadAttempts = 0;
+        
+        // 检查浏览器支持
+        function checkSpeechSupport() {
+            if (!('speechSynthesis' in window)) {
+                alert('您的浏览器不支持语音播放功能，请使用 Chrome、Safari 或 Edge 浏览器。');
+                return false;
+            }
+            return true;
+        }
+        
+        // 选择最佳美式英语语音（高质量优先）
+        function getBestEnglishVoice() {
+            const voices = synth.getVoices();
+            
+            // 优先级 1: Google US English - 最自然的美式发音
+            let voice = voices.find(v => v.name === 'Google US English');
+            
+            // 优先级 2: Microsoft 高质量美式语音
+            if (!voice) {
+                voice = voices.find(v => 
+                    v.name === 'Microsoft Aria Online (Natural)' ||
+                    v.name === 'Microsoft Guy Online (Natural)' ||
+                    v.name === 'Microsoft Jenny Online (Natural)'
+                );
+            }
+            
+            // 优先级 3: macOS 美式语音
+            if (!voice) {
+                voice = voices.find(v => 
+                    v.name === 'Samantha' || 
+                    v.name === 'Karen' ||
+                    v.name === 'Fred'
+                );
+            }
+            
+            // 优先级 4: 其他 en-US 语音
+            if (!voice) {
+                voice = voices.find(v => 
+                    (v.lang === 'en-US' || v.lang.includes('en-US')) && 
+                    (v.name.includes('Google') || v.name.includes('Premium') || v.name.includes('Natural'))
+                );
+            }
+            
+            // 优先级 5: 任何美式英语
+            if (!voice) {
+                voice = voices.find(v => v.lang === 'en-US');
+            }
+            
+            // 优先级 6: 任何英语语音
+            if (!voice) {
+                voice = voices.find(v => v.lang.startsWith('en'));
+            }
+            
+            return voice;
+        }
+        
+        // 更新语音状态显示
+        function updateVoiceStatus() {
+            const statusEl = document.getElementById('voiceStatus');
+            if (statusEl) {
+                if (selectedVoice) {
+                    statusEl.textContent = `🎤 ${selectedVoice.name} (${selectedVoice.lang})`;
+                    statusEl.style.color = '#28a745';
+                } else {
+                    statusEl.textContent = '⚠️ 未找到语音';
+                    statusEl.style.color = '#dc3545';
+                }
+            }
+        }
+        
+        // 初始化语音（页面加载时）
+        function initVoice() {
+            if (!checkSpeechSupport()) return;
+            
+            voiceLoadAttempts++;
+            
+            // 尝试获取语音
+            selectedVoice = getBestEnglishVoice();
+            
+            if (selectedVoice) {
+                updateVoiceStatus();
+                console.log('✅ 语音加载成功:', selectedVoice.name);
+            } else if (voiceLoadAttempts < 5) {
+                // 如果还没加载到，继续等待
+                setTimeout(initVoice, 200);
+            } else {
+                updateVoiceStatus();
+                console.warn('⚠️ 语音加载超时，将使用默认语音');
+            }
+        }
+        
+        // 朗读文本（使用选定的语音）
+        function speak(text, rate = 0.75) {
+            if (!checkSpeechSupport()) return;
+            
+            // 停止当前播放
+            synth.cancel();
+            
+            const utterance = new SpeechSynthesisUtterance(text);
+            
+            // 使用选定的最佳语音
+            if (selectedVoice) {
+                utterance.voice = selectedVoice;
+            }
+            
+            // 设置语言为美式英语
+            utterance.lang = selectedVoice ? selectedVoice.lang : 'en-US';
+            utterance.rate = rate; // 语速（稍慢，适合学习）
+            utterance.pitch = 1; // 音调
+            utterance.volume = 1; // 音量
+            
+            utterance.onstart = function() {
+                isSpeaking = true;
+            };
+            
+            utterance.onend = function() {
+                isSpeaking = false;
+            };
+            
+            utterance.onerror = function(e) {
+                console.error('语音播放错误:', e);
+                isSpeaking = false;
+            };
+            
+            synth.speak(utterance);
+        }
+        
+        // 朗读全部单词
+        function speakAllWords() {
+            if (!checkSpeechSupport()) return;
+            
+            const words = [
+                'school',
+                'classroom',
+                'teacher',
+                'student',
+                'desk',
+                'chair',
+                'book',
+                'pen',
+                'pencil',
+                'rubber'
+            ];
+            
+            synth.cancel();
+            
+            let delay = 0;
+            words.forEach((word, index) => {
+                setTimeout(() => {
+                    const utterance = new SpeechSynthesisUtterance(word);
+                    
+                    if (selectedVoice) {
+                        utterance.voice = selectedVoice;
+                        utterance.lang = selectedVoice.lang;
+                    } else {
+                        utterance.lang = 'en-US';
+                    }
+                    
+                    utterance.rate = 0.7; // 更慢一点，方便跟读
+                    utterance.pitch = 1;
+                    
+                    synth.speak(utterance);
+                }, delay);
+                
+                delay += 1500; // 每个单词间隔 1.5 秒
+            });
+            
+            isSpeaking = true;
+        }
+        
+        // 朗读语法例句
+        function speakGrammarExamples() {
+            if (!checkSpeechSupport()) return;
+            
+            const examples = [
+                'a book',
+                'a pen',
+                'a desk',
+                'an apple',
+                'an eraser',
+                'an hour',
+                'The teacher is in the classroom.'
+            ];
+            
+            synth.cancel();
+            
+            let delay = 0;
+            examples.forEach((text) => {
+                setTimeout(() => {
+                    speak(text, 0.75);
+                }, delay);
+                delay += 1200;
+            });
+        }
+        
+        // 朗读阅读文章
+        function speakReading() {
+            if (!checkSpeechSupport()) return;
+            
+            const text = "Hello! My name is Lucy. I am 10 years old. I go to Green Primary School. My classroom is on the second floor. It is big and clean. There are 25 students in my class. My teacher's name is Miss Wang. She teaches us English. I have a desk and a chair. My desk is blue. I have many books and pencils. I like my school very much!";
+            
+            speak(text, 0.75);
+        }
+        
+        // 慢速朗读文章
+        function speakReadingSlow() {
+            if (!checkSpeechSupport()) return;
+            
+            const text = "Hello! My name is Lucy. I am 10 years old. I go to Green Primary School. My classroom is on the second floor. It is big and clean. There are 25 students in my class. My teacher's name is Miss Wang. She teaches us English. I have a desk and a chair. My desk is blue. I have many books and pencils. I like my school very much!";
+            
+            speak(text, 0.55); // 更慢速
+        }
+        
+        // 朗读 Part 1 全部内容
+        function speakSection1() {
+            if (!checkSpeechSupport()) return;
+            
+            synth.cancel();
+            
+            const intro = "Part 1. 单词学习。School & Classroom.";
+            speak(intro, 0.8);
+            
+            // 延迟后开始读单词
+            setTimeout(() => {
+                speakAllWords();
+            }, 2000);
+        }
+        
+        // 朗读 Part 2 全部内容
+        function speakSection2() {
+            if (!checkSpeechSupport()) return;
+            
+            synth.cancel();
+            
+            const intro = "Part 2. 语法知识点。Articles: a, an, the.";
+            speak(intro, 0.8);
+            
+            setTimeout(() => {
+                speakGrammarExamples();
+            }, 2000);
+        }
+        
+        // 朗读 Part 3 全部内容
+        function speakSection3() {
+            if (!checkSpeechSupport()) return;
+            
+            synth.cancel();
+            
+            const intro = "Part 3. 阅读理解。My School Day.";
+            speak(intro, 0.8);
+            
+            setTimeout(() => {
+                speakReading();
+            }, 2000);
+        }
+        
+        // 停止播放
+        function stopSpeaking() {
+            if (synth) {
+                synth.cancel();
+                isSpeaking = false;
+            }
+        }
+        
+        // 页面加载时初始化语音
+        window.addEventListener('load', function() {
+            initVoice();
+            
+            // 某些浏览器需要多次尝试
+            setTimeout(initVoice, 100);
+            setTimeout(initVoice, 500);
+            setTimeout(initVoice, 1000);
+        });
+        
+        // 监听 voices 变化（某些浏览器需要）
+        if (speechSynthesis.onvoiceschanged !== undefined) {
+            speechSynthesis.onvoiceschanged = function() {
+                selectedVoice = getBestEnglishVoice();
+                updateVoiceStatus();
+            };
+        }
+        
+        // 单选按钮样式交互
+        document.querySelectorAll('.option input[type="radio"]').forEach(input => {
+            input.addEventListener('change', function() {
+                this.closest('.question').querySelectorAll('.option').forEach(opt => {
+                    opt.classList.remove('selected');
+                });
+                this.closest('.option').classList.add('selected');
+            });
+        });
+        
+        // 提交答案
+        document.getElementById('quizForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+            
+            let score = 0;
+            const total = 30;
+            const feedback = [];
+            
+            // 答案和解析
+            const answers = {
+                q1: { answer: 'B', explain: 'apple 以元音音素开头，用 an' },
+                q2: { answer: 'C', explain: 'sun 是独一无二的事物，用 The' },
+                q3: { answer: 'A', explain: 'teacher 以辅音音素开头，泛指用 a' },
+                q4: { answer: 'C', explain: '特指桌上的那支笔，用 the' },
+                q5: { answer: 'B', explain: 'umbrella 以元音音素开头，用 an' },
+                q6: { answer: 'B', explain: '25 students 是复数，用 are' },
+                q7: { answer: 'A', explain: 'My classroom 是单数，用 is' },
+                q8: { answer: 'B', explain: 'She 是第三人称单数，动词加 -es' },
+                q9: { answer: 'A', explain: 'every day = 每天' },
+                q10: { answer: 'B', explain: 'my book = 我的书，形容词性物主代词' },
+                q11: { answer: 'B', explain: '文中说 I am 10 years old.' },
+                q12: { answer: 'B', explain: '文中说 I go to Green Primary School.' },
+                q13: { answer: 'B', explain: '文中说 My classroom is on the second floor.' },
+                q14: { answer: 'B', explain: '文中说 There are 25 students in my class.' },
+                q15: { answer: 'B', explain: '文中说 My desk is blue.' }
+            };
+            
+            // 批改每道题
+            for (let i = 1; i <= 15; i++) {
+                const qName = 'q' + i;
+                const question = document.querySelector(`.question[data-id="${i}"]`);
+                const correctAnswer = answers[qName].answer;
+                let userAnswer = '';
+                let isCorrect = false;
+                
+                // 获取用户答案
+                const radio = question.querySelector('input[type="radio"]:checked');
+                const textInput = question.querySelector('input[type="text"]');
+                
+                if (radio) {
+                    userAnswer = radio.value;
+                } else if (textInput) {
+                    userAnswer = textInput.value.trim().toLowerCase();
+                }
+                
+                // 判断对错
+                if (Array.isArray(correctAnswer)) {
+                    isCorrect = correctAnswer.some(ans => userAnswer.toLowerCase() === ans.toLowerCase());
+                } else {
+                    isCorrect = userAnswer.toLowerCase() === correctAnswer.toLowerCase();
+                }
+                
+                // 计分
+                if (isCorrect) {
+                    score += 2;
+                    feedback.push(`<div class="feedback-item feedback-correct">✅ 第${i}题：正确</div>`);
+                } else {
+                    const correctText = Array.isArray(correctAnswer) ? correctAnswer[0] : correctAnswer;
+                    feedback.push(`<div class="feedback-item feedback-wrong">❌ 第${i}题：错误 | 正确答案：${correctText} | ${answers[qName].explain}</div>`);
+                }
+            }
+            
+            // 显示结果
+            const percentage = Math.round((score / total) * 100);
+            document.getElementById('scoreDisplay').textContent = `${score} / ${total}`;
+            document.getElementById('percentageDisplay').textContent = `正确率：${percentage}%`;
+            document.getElementById('feedbackBox').innerHTML = feedback.join('');
+            document.getElementById('resultBox').style.display = 'block';
+            
+            // 滚动到结果
+            document.getElementById('resultBox').scrollIntoView({ behavior: 'smooth' });
+            
+            // 根据分数显示不同颜色
+            const resultBox = document.getElementById('resultBox');
+            if (percentage >= 90) {
+                resultBox.style.background = 'linear-gradient(135deg, #11998e 0%, #38ef7d 100%)';
+            } else if (percentage >= 70) {
+                resultBox.style.background = 'linear-gradient(135deg, #667eea 0%, #764ba2 100%)';
+            } else if (percentage >= 60) {
+                resultBox.style.background = 'linear-gradient(135deg, #f093fb 0%, #f5576c 100%)';
+            } else {
+                resultBox.style.background = 'linear-gradient(135deg, #eb3349 0%, #f45c43 100%)';
+            }
+        });
+    </script>
 </body>
 </html>
