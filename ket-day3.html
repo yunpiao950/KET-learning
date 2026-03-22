@@ -5,108 +5,163 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Day 3 - KET 备考学习</title>
     <style>
-        body { font-family: Arial, sans-serif; max-width: 900px; margin: 0 auto; padding: 20px; line-height: 1.6; }
-        h1 { color: #2c5aa0; } h2 { color: #4a90d9; border-bottom: 2px solid #4a90d9; padding-bottom: 10px; }
-        table { width: 100%; border-collapse: collapse; margin: 15px 0; }
-        th, td { border: 1px solid #ddd; padding: 12px 8px; text-align: left; }
-        th { background-color: #4a90d9; color: white; }
-        tr:nth-child(even) { background-color: #f9f9f9; }
-        .tip { background-color: #fff3cd; border-left: 4px solid #ffc107; padding: 15px; margin: 15px 0; }
-        .exercise { background-color: #f0f7ff; padding: 15px; margin: 10px 0; border-radius: 5px; }
-        .checkbox-list { list-style: none; padding: 0; }
-        .checkbox-list li { margin: 8px 0; }
-        .preview { background-color: #e8f5e9; padding: 15px; border-radius: 5px; margin-top: 20px; }
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif; line-height: 1.6; color: #333; max-width: 900px; margin: 0 auto; padding: 20px; background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); min-height: 100vh; }
+        .container { background: white; border-radius: 15px; padding: 30px; box-shadow: 0 10px 40px rgba(0,0,0,0.2); }
+        h1 { color: #667eea; text-align: center; margin-bottom: 10px; font-size: 28px; }
+        .subtitle { text-align: center; color: #666; margin-bottom: 30px; padding-bottom: 20px; border-bottom: 2px dashed #eee; }
+        .section { margin-bottom: 30px; padding: 20px; background: #f8f9fa; border-radius: 10px; border-left: 4px solid #667eea; }
+        .section h2 { color: #667eea; margin-bottom: 15px; font-size: 22px; }
+        .word-table { width: 100%; border-collapse: collapse; margin: 15px 0; background: white; border-radius: 8px; overflow: hidden; }
+        .word-table th { background: #667eea; color: white; padding: 12px; text-align: left; }
+        .word-table td { padding: 12px; border-bottom: 1px solid #eee; }
+        .word-table tr:hover { background: #f0f0ff; }
+        .speaker-btn { background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); border: none; color: white; padding: 6px 12px; border-radius: 20px; cursor: pointer; font-size: 14px; transition: all 0.3s; margin: 2px; display: inline-flex; align-items: center; justify-content: center; }
+        .speaker-btn:hover { transform: scale(1.1); box-shadow: 0 4px 15px rgba(102, 126, 234, 0.4); }
+        .speaker-btn:active { transform: scale(0.95); }
+        .question { background: white; padding: 20px; margin: 15px 0; border-radius: 8px; border: 2px solid #e0e0e0; transition: all 0.3s; }
+        .question:hover { border-color: #667eea; box-shadow: 0 2px 10px rgba(102, 126, 234, 0.2); }
+        .question-title { font-weight: bold; color: #333; margin-bottom: 10px; font-size: 16px; }
+        .options { margin: 10px 0; }
+        .option { display: block; margin: 8px 0; padding: 10px 15px; background: #f8f9fa; border: 2px solid #e0e0e0; border-radius: 6px; cursor: pointer; transition: all 0.3s; }
+        .option:hover { background: #e8eaff; border-color: #667eea; }
+        .option input[type="radio"] { margin-right: 10px; }
+        .option.selected { background: #667eea; color: white; border-color: #667eea; }
+        .input-answer { width: 100%; padding: 12px; border: 2px solid #e0e0e0; border-radius: 6px; font-size: 16px; margin-top: 10px; transition: all 0.3s; }
+        .input-answer:focus { outline: none; border-color: #667eea; box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.2); }
+        .submit-btn { display: block; width: 100%; padding: 15px; background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); color: white; border: none; border-radius: 8px; font-size: 18px; font-weight: bold; cursor: pointer; margin: 30px 0; transition: transform 0.3s, box-shadow 0.3s; }
+        .submit-btn:hover { transform: translateY(-2px); box-shadow: 0 5px 20px rgba(102, 126, 234, 0.4); }
+        .result-box { display: none; background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%); color: white; padding: 30px; border-radius: 10px; text-align: center; margin: 30px 0; }
+        .result-box h3 { font-size: 24px; margin-bottom: 15px; }
+        .score { font-size: 48px; font-weight: bold; margin: 20px 0; }
+        .feedback { background: white; color: #333; padding: 20px; border-radius: 8px; margin-top: 20px; text-align: left; }
+        .feedback-item { padding: 10px; margin: 10px 0; border-radius: 6px; }
+        .feedback-correct { background: #d4edda; border-left: 4px solid #28a745; }
+        .feedback-wrong { background: #f8d7da; border-left: 4px solid #dc3545; }
+        .grammar-box { background: white; padding: 15px; border-radius: 8px; margin: 10px 0; }
+        .grammar-table { width: 100%; border-collapse: collapse; margin: 10px 0; }
+        .grammar-table th, .grammar-table td { padding: 10px; border: 1px solid #e0e0e0; text-align: left; }
+        .grammar-table th { background: #f0f0ff; }
+        .reading-text { background: white; padding: 20px; border-radius: 8px; line-height: 2; font-size: 16px; }
+        .tips { background: #fff3cd; border-left: 4px solid #ffc107; padding: 15px; margin: 15px 0; border-radius: 6px; }
+        .audio-control { background: #e7f3ff; border-left: 4px solid #2196F3; padding: 15px; margin: 15px 0; border-radius: 6px; display: flex; flex-wrap: wrap; align-items: center; gap: 10px; }
+        .audio-control button { background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); border: none; color: white; padding: 10px 20px; border-radius: 25px; cursor: pointer; font-size: 14px; transition: all 0.3s; display: inline-flex; align-items: center; gap: 5px; }
+        .audio-control button:hover { transform: scale(1.05); box-shadow: 0 4px 15px rgba(102, 126, 234, 0.4); }
+        .audio-control .voice-status { font-size: 12px; color: #666; margin-left: 10px; }
+        .section-read-btn { background: linear-gradient(135deg, #11998e 0%, #38ef7d 100%); border: none; color: white; padding: 8px 16px; border-radius: 20px; cursor: pointer; font-size: 13px; margin-left: 10px; transition: all 0.3s; display: inline-flex; align-items: center; gap: 5px; }
+        .section-read-btn:hover { transform: scale(1.05); box-shadow: 0 4px 15px rgba(17, 153, 142, 0.4); }
+        @media (max-width: 600px) { body { padding: 10px; } .container { padding: 15px; } h1 { font-size: 22px; } .word-table { font-size: 14px; } .word-table th, .word-table td { padding: 8px; } .audio-control { flex-direction: column; align-items: flex-start; } }
     </style>
 </head>
 <body>
-    <h1>📚 Day 3 - KET 备考学习</h1>
-    <p><strong>主题：Food & Drink (食物与饮料)</strong> | <strong>预计时长：30 分钟</strong></p>
-
-    <h2>📝 Part 1: 单词学习 (10 分钟)</h2>
-    <table>
-        <tr><th>序号</th><th>单词</th><th>音标</th><th>中文</th><th>例句</th></tr>
-        <tr><td>1</td><td>breakfast</td><td>/ˈbrekfəst/</td><td>早餐</td><td>I have breakfast at 7 o'clock.</td></tr>
-        <tr><td>2</td><td>lunch</td><td>/lʌntʃ/</td><td>午餐</td><td>We have lunch at school.</td></tr>
-        <tr><td>3</td><td>dinner</td><td>/ˈdɪnə(r)/</td><td>晚餐</td><td>Dinner is ready!</td></tr>
-        <tr><td>4</td><td>bread</td><td>/bred/</td><td>面包</td><td>I like bread and butter.</td></tr>
-        <tr><td>5</td><td>rice</td><td>/raɪs/</td><td>米饭</td><td>Rice is my favorite food.</td></tr>
-        <tr><td>6</td><td>noodles</td><td>/ˈnuːdlz/</td><td>面条</td><td>She likes eating noodles.</td></tr>
-        <tr><td>7</td><td>chicken</td><td>/ˈtʃɪkɪn/</td><td>鸡肉</td><td>Chicken is delicious.</td></tr>
-        <tr><td>8</td><td>fish</td><td>/fɪʃ/</td><td>鱼</td><td>Fish can swim.</td></tr>
-        <tr><td>9</td><td>water</td><td>/ˈwɔːtə(r)/</td><td>水</td><td>Drink more water every day.</td></tr>
-        <tr><td>10</td><td>milk</td><td>/mɪlk/</td><td>牛奶</td><td>I drink milk every morning.</td></tr>
-    </table>
-
-    <h2>📖 Part 2: 语法知识点 (5 分钟)</h2>
-    <h3>可数名词与不可数名词 (Countable & Uncountable Nouns)</h3>
-    <table>
-        <tr><th>类型</th><th>说明</th><th>例子</th></tr>
-        <tr><td>可数名词</td><td>可以用数字计数，有单复数</td><td>an apple, two apples, a book, three books</td></tr>
-        <tr><td>不可数名词</td><td>不能用数字直接计数，无复数</td><td>water, milk, rice, bread, chicken</td></tr>
-    </table>
-    <div class="tip">
-        <strong>💡 小贴士：</strong>
-        <ul>
-            <li>可数名词前可用 a/an/many</li>
-            <li>不可数名词前可用 much/some/any</li>
-            <li>询问可数名词用 How many，不可数名词用 How much</li>
-        </ul>
+    <div class="container">
+        <h1>📅 Day 3 - KET 备考学习</h1>
+        <p class="subtitle">主题：Food & Drink (食物与饮料) | 预计时长：30 分钟</p>
+        
+        <div class="section">
+            <h2>📝 Part 1: 单词学习 (10 分钟)<button class="section-read-btn" onclick="speakSection1()">🔊 朗读本部分</button></h2>
+            <div class="audio-control">
+                <button onclick="speakAllWords()">📢 朗读全部单词</button>
+                <button onclick="stopSpeaking()">⏹️ 停止播放</button>
+                <span class="voice-status" id="voiceStatus">🎤 加载中...</span>
+            </div>
+            <table class="word-table">
+                <thead><tr><th>序号</th><th>单词</th><th>音标</th><th>中文</th><th>例句</th></tr></thead>
+                <tbody>
+                    <tr><td>1</td><td><strong>apple</strong> <button class="speaker-btn" onclick="speak('apple')">🔊</button></td><td>/ˈæpl/</td><td>苹果</td><td>I eat an apple every day. <button class="speaker-btn" onclick="speak('I eat an apple every day.')">🔊</button></td></tr>
+                    <tr><td>2</td><td><strong>banana</strong> <button class="speaker-btn" onclick="speak('banana')">🔊</button></td><td>/bəˈnɑːnə/</td><td>香蕉</td><td>Monkeys like bananas. <button class="speaker-btn" onclick="speak('Monkeys like bananas.')">🔊</button></td></tr>
+                    <tr><td>3</td><td><strong>bread</strong> <button class="speaker-btn" onclick="speak('bread')">🔊</button></td><td>/bred/</td><td>面包</td><td>I have bread for breakfast. <button class="speaker-btn" onclick="speak('I have bread for breakfast.')">🔊</button></td></tr>
+                    <tr><td>4</td><td><strong>cheese</strong> <button class="speaker-btn" onclick="speak('cheese')">🔊</button></td><td>/tʃiːz/</td><td>奶酪</td><td>Do you like cheese? <button class="speaker-btn" onclick="speak('Do you like cheese?')">🔊</button></td></tr>
+                    <tr><td>5</td><td><strong>chicken</strong> <button class="speaker-btn" onclick="speak('chicken')">🔊</button></td><td>/ˈtʃɪkɪn/</td><td>鸡肉</td><td>Chicken is delicious. <button class="speaker-btn" onclick="speak('Chicken is delicious.')">🔊</button></td></tr>
+                    <tr><td>6</td><td><strong>coffee</strong> <button class="speaker-btn" onclick="speak('coffee')">🔊</button></td><td>/ˈkɒfi/</td><td>咖啡</td><td>My dad drinks coffee in the morning. <button class="speaker-btn" onclick="speak('My dad drinks coffee in the morning.')">🔊</button></td></tr>
+                    <tr><td>7</td><td><strong>egg</strong> <button class="speaker-btn" onclick="speak('egg')">🔊</button></td><td>/eɡ/</td><td>鸡蛋</td><td>I boil an egg for breakfast. <button class="speaker-btn" onclick="speak('I boil an egg for breakfast.')">🔊</button></td></tr>
+                    <tr><td>8</td><td><strong>fish</strong> <button class="speaker-btn" onclick="speak('fish')">🔊</button></td><td>/fɪʃ/</td><td>鱼</td><td>Fish swims in the water. <button class="speaker-btn" onclick="speak('Fish swims in the water.')">🔊</button></td></tr>
+                    <tr><td>9</td><td><strong>juice</strong> <button class="speaker-btn" onclick="speak('juice')">🔊</button></td><td>/dʒuːs/</td><td>果汁</td><td>Orange juice is my favorite. <button class="speaker-btn" onclick="speak('Orange juice is my favorite.')">🔊</button></td></tr>
+                    <tr><td>10</td><td><strong>milk</strong> <button class="speaker-btn" onclick="speak('milk')">🔊</button></td><td>/mɪlk/</td><td>牛奶</td><td>Drink milk every day. <button class="speaker-btn" onclick="speak('Drink milk every day.')">🔊</button></td></tr>
+                </tbody>
+            </table>
+            <div class="tips"><strong>🎯 学习方法：</strong><ol><li>点击 🔊 按钮听发音，小朋友跟读 3 遍</li><li>遮住中文，看英文说中文</li><li>遮住英文，看中文说英文</li><li>点击「朗读全部单词」可以连续播放所有单词</li></ol></div>
+        </div>
+        
+        <div class="section">
+            <h2>📖 Part 2: 语法知识点 (5 分钟)<button class="section-read-btn" onclick="speakSection2()">🔊 朗读本部分</button></h2>
+            <h3>可数名词与不可数名词 (Countable & Uncountable Nouns)</h3>
+            <div class="audio-control"><button onclick="speakGrammarExamples()">📚 朗读语法例句</button></div>
+            <div class="grammar-box">
+                <table class="grammar-table">
+                    <tr><th>类型</th><th>说明</th><th>例子</th></tr>
+                    <tr><td><strong>可数名词</strong></td><td>可以用数字计数，有单复数</td><td><button class="speaker-btn" onclick="speak('one apple, two apples')">🔊</button> one apple, two apples</td></tr>
+                    <tr><td><strong>不可数名词</strong></td><td>不能用数字直接计数，没有复数</td><td><button class="speaker-btn" onclick="speak('some bread, some milk')">🔊</button> some bread, some milk</td></tr>
+                    <tr><td><strong>用量词表示</strong></td><td>不可数名词用量词表达数量</td><td><button class="speaker-btn" onclick="speak('a cup of coffee, a glass of milk')">🔊</button> a cup of coffee, a glass of milk</td></tr>
+                </table>
+            </div>
+            <div class="tips"><strong>💡 小贴士：</strong><ul><li>可数名词：apple/apples, egg/eggs, banana/bananas</li><li>不可数名词：bread, milk, cheese, coffee, juice</li><li>用 some/any 修饰不可数名词</li></ul></div>
+        </div>
+        
+        <div class="section">
+            <h2>🎧 Part 3: 阅读理解 (5 分钟)<button class="section-read-btn" onclick="speakSection3()">🔊 朗读本部分</button></h2>
+            <div class="audio-control"><button onclick="speakReading()">📖 朗读文章</button><button onclick="speakReadingSlow()">🐢 慢速朗读</button></div>
+            <div class="reading-text"><p><strong>My Favorite Food</strong></p><p>Hello! My name is Amy. I am 10 years old. I like healthy food. For breakfast, I have bread and milk. Sometimes I eat an egg. For lunch, I have rice and chicken at school. I like fish too. My favorite fruit is apples. I drink orange juice every day. I don't like coffee. It is for adults. What is your favorite food?</p></div>
+            <div class="tips" style="margin-top: 15px;"><strong>📚 生词提示：</strong>healthy 健康的 | sometimes 有时 | adults 成年人</div>
+        </div>
+        
+        <div class="section">
+            <h2>✍️ Part 4: 练习题 (10 分钟)</h2>
+            <p>请小朋友认真完成以下 15 道题目，完成后点击「提交答案」查看成绩！</p>
+            <form id="quizForm">
+                <div class="question" data-id="1" data-answer="B"><div class="question-title">第 1 题：选择正确的词 (2 分)</div><p>I want ___ apple.</p><div class="options"><label class="option"><input type="radio" name="q1" value="A"> A) a</label><label class="option"><input type="radio" name="q1" value="B"> B) an</label><label class="option"><input type="radio" name="q1" value="C"> C) some</label></div></div>
+                <div class="question" data-id="2" data-answer="A"><div class="question-title">第 2 题：选择正确的词 (2 分)</div><p>She drinks ___ milk every day.</p><div class="options"><label class="option"><input type="radio" name="q2" value="A"> A) some</label><label class="option"><input type="radio" name="q2" value="B"> B) a</label><label class="option"><input type="radio" name="q2" value="C"> C) an</label></div></div>
+                <div class="question" data-id="3" data-answer="B"><div class="question-title">第 3 题：选择正确的词 (2 分)</div><p>How many ___ do you want?</p><div class="options"><label class="option"><input type="radio" name="q3" value="A"> A) bread</label><label class="option"><input type="radio" name="q3" value="B"> B) apples</label><label class="option"><input type="radio" name="q3" value="C"> C) milk</label></div></div>
+                <div class="question" data-id="4" data-answer="A"><div class="question-title">第 4 题：选择正确的词 (2 分)</div><p>I'd like ___ coffee, please.</p><div class="options"><label class="option"><input type="radio" name="q4" value="A"> A) a cup of</label><label class="option"><input type="radio" name="q4" value="B"> B) a</label><label class="option"><input type="radio" name="q4" value="C"> C) an</label></div></div>
+                <div class="question" data-id="5" data-answer="C"><div class="question-title">第 5 题：选择正确的词 (2 分)</div><p>___ is good for your health.</p><div class="options"><label class="option"><input type="radio" name="q5" value="A"> A) Candies</label><label class="option"><input type="radio" name="q5" value="B"> B) Cola</label><label class="option"><input type="radio" name="q5" value="C"> C) Milk</label></div></div>
+                <div class="question" data-id="6" data-answer="B"><div class="question-title">第 6 题：单项选择 (2 分)</div><p>There ___ some bread on the table.</p><div class="options"><label class="option"><input type="radio" name="q6" value="A"> A) are</label><label class="option"><input type="radio" name="q6" value="B"> B) is</label><label class="option"><input type="radio" name="q6" value="C"> C) be</label></div></div>
+                <div class="question" data-id="7" data-answer="A"><div class="question-title">第 7 题：单项选择 (2 分)</div><p>___ you like some juice?</p><div class="options"><label class="option"><input type="radio" name="q7" value="A"> A) Would</label><label class="option"><input type="radio" name="q7" value="B"> B) Do</label><label class="option"><input type="radio" name="q7" value="C"> C) Are</label></div></div>
+                <div class="question" data-id="8" data-answer="C"><div class="question-title">第 8 题：单项选择 (2 分)</div><p>I don't like ___.</p><div class="options"><label class="option"><input type="radio" name="q8" value="A"> A) apple</label><label class="option"><input type="radio" name="q8" value="B"> B) banana</label><label class="option"><input type="radio" name="q8" value="C"> C) cheese</label></div></div>
+                <div class="question" data-id="9" data-answer="A"><div class="question-title">第 9 题：单项选择 (2 分)</div><p>She has ___ egg for breakfast.</p><div class="options"><label class="option"><input type="radio" name="q9" value="A"> A) an</label><label class="option"><input type="radio" name="q9" value="B"> B) a</label><label class="option"><input type="radio" name="q9" value="C"> C) some</label></div></div>
+                <div class="question" data-id="10" data-answer="B"><div class="question-title">第 10 题：单项选择 (2 分)</div><p>Fish ___ in the water.</p><div class="options"><label class="option"><input type="radio" name="q10" value="A"> A) fly</label><label class="option"><input type="radio" name="q10" value="B"> B) swims</label><label class="option"><input type="radio" name="q10" value="C"> C) run</label></div></div>
+                <div class="question" data-id="11" data-answer="B"><div class="question-title">第 11 题：阅读理解 (2 分)</div><p>How old is Amy?</p><div class="options"><label class="option"><input type="radio" name="q11" value="A"> A) 9</label><label class="option"><input type="radio" name="q11" value="B"> B) 10</label><label class="option"><input type="radio" name="q11" value="C"> C) 11</label></div></div>
+                <div class="question" data-id="12" data-answer="A"><div class="question-title">第 12 题：阅读理解 (2 分)</div><p>What does Amy have for breakfast?</p><div class="options"><label class="option"><input type="radio" name="q12" value="A"> A) Bread and milk</label><label class="option"><input type="radio" name="q12" value="B"> B) Rice and chicken</label><label class="option"><input type="radio" name="q12" value="C"> C) Fish and juice</label></div></div>
+                <div class="question" data-id="13" data-answer="C"><div class="question-title">第 13 题：阅读理解 (2 分)</div><p>Where does Amy have lunch?</p><div class="options"><label class="option"><input type="radio" name="q13" value="A"> A) At home</label><label class="option"><input type="radio" name="q13" value="B"> B) At a restaurant</label><label class="option"><input type="radio" name="q13" value="C"> C) At school</label></div></div>
+                <div class="question" data-id="14" data-answer="B"><div class="question-title">第 14 题：阅读理解 (2 分)</div><p>What is Amy's favorite fruit?</p><div class="options"><label class="option"><input type="radio" name="q14" value="A"> A) Bananas</label><label class="option"><input type="radio" name="q14" value="B"> B) Apples</label><label class="option"><input type="radio" name="q14" value="C"> C) Oranges</label></div></div>
+                <div class="question" data-id="15" data-answer="A"><div class="question-title">第 15 题：阅读理解 (2 分)</div><p>Does Amy like coffee?</p><div class="options"><label class="option"><input type="radio" name="q15" value="A"> A) No, she doesn't</label><label class="option"><input type="radio" name="q15" value="B"> B) Yes, she does</label><label class="option"><input type="radio" name="q15" value="C"> C) We don't know</label></div></div>
+                <button type="submit" class="submit-btn">📤 提交答案</button>
+            </form>
+            <div class="result-box" id="resultBox"><h3>🎉 答题完成！</h3><div class="score" id="scoreDisplay">0 / 30</div><p id="percentageDisplay">正确率：0%</p><div class="feedback" id="feedbackBox"></div></div>
+        </div>
+        
+        <div class="section">
+            <h2>✅ 学习打卡</h2>
+            <div style="margin: 15px 0;"><label style="display: block; margin: 10px 0;"><input type="checkbox"> 单词学习完成（听发音 + 跟读）</label><label style="display: block; margin: 10px 0;"><input type="checkbox"> 语法学习完成</label><label style="display: block; margin: 10px 0;"><input type="checkbox"> 阅读理解完成</label><label style="display: block; margin: 10px 0;"><input type="checkbox"> 15 道练习题完成</label></div>
+            <p><strong>学习日期：</strong>_____________</p><p><strong>实际用时：</strong>_____ 分钟</p><p><strong>家长签字：</strong>_____________</p>
+        </div>
+        
+        <div class="section" style="border-left-color: #28a745;"><h2 style="color: #28a745;">📌 明日预告</h2><p><strong>Day 4 主题：</strong>Colors & Shapes (颜色与形状)</p><p><strong>新词数量：</strong>10 个</p><p><strong>复习内容：</strong>Day 1 的 10 个单词 (艾宾浩斯第 3 次复习) + Day 2 的 10 个单词 (艾宾浩斯第 2 次复习) + Day 3 的 10 个单词 (艾宾浩斯第 1 次复习)</p></div>
+        
+        <div style="text-align: center; margin-top: 30px; padding-top: 20px; border-top: 2px dashed #eee;">
+            <a href="ket-day2.html" style="color: #667eea; text-decoration: none; margin: 0 15px;">⬅️ Day 2</a>
+            <a href="ket-day4.html" style="color: #667eea; text-decoration: none; margin: 0 15px;">Day 4 ➡️</a>
+        </div>
     </div>
-
-    <h2>🎧 Part 3: 阅读理解 (5 分钟)</h2>
-    <div style="background-color: #f9f9f9; padding: 15px; border-radius: 5px;">
-        <h4>My Favorite Food</h4>
-        <p>Hi! I'm Mike. I love food! For breakfast, I usually have bread and milk. Sometimes I eat eggs too. For lunch, I have rice and chicken at school. The chicken is very delicious! For dinner, my mother cooks noodles or fish. My favorite food is fish. I don't like vegetables very much, but my mother says they are good for me. I drink water every day. It's healthy!</p>
-        <p><strong>📚 生词提示：</strong>usually 通常 | sometimes 有时 | delicious 美味的 | vegetables 蔬菜 | healthy 健康的</p>
-    </div>
-
-    <h2>✍️ Part 4: 练习题 (10 分钟)</h2>
     
-    <div class="exercise">
-        <h4>一、选择正确的词 (5 题)</h4>
-        <p>1. I have ___ for breakfast. (A) a bread (B) bread (C) breads</p>
-        <p>2. How ___ water do you drink every day? (A) many (B) much (C) some</p>
-        <p>3. There are three ___ on the table. (A) apple (B) apples (C) an apple</p>
-        <p>4. She doesn't like ___ . (A) chicken (B) a chicken (C) chickens</p>
-        <p>5. How ___ students are in your class? (A) much (B) many (C) some</p>
-    </div>
-
-    <div class="exercise">
-        <h4>二、单项选择 (5 题)</h4>
-        <p>6. I usually have breakfast ___ 7 o'clock. (A) in (B) on (C) at</p>
-        <p>7. We have lunch ___ school. (A) in (B) at (C) on</p>
-        <p>8. My mother cooks ___ dinner. (A) a (B) an (C) /</p>
-        <p>9. Fish ___ good for you. (A) is (B) are (C) be</p>
-        <p>10. I don't like vegetables, ___ my mother says they are healthy. (A) and (B) but (C) or</p>
-    </div>
-
-    <div class="exercise">
-        <h4>三、阅读理解 (5 题)</h4>
-        <p>11. What does Mike have for breakfast? (A) Rice and chicken (B) Bread and milk (C) Noodles and fish</p>
-        <p>12. Where does Mike have lunch? (A) At home (B) At school (C) At restaurant</p>
-        <p>13. What is Mike's favorite food? (A) Chicken (B) Noodles (C) Fish</p>
-        <p>14. Does Mike like vegetables? (A) Yes, very much (B) No, not very much (C) We don't know</p>
-        <p>15. Why should Mike eat vegetables? (A) They are delicious (B) They are healthy (C) They are cheap</p>
-    </div>
-
-    <h2>✅ 学习打卡</h2>
-    <ul class="checkbox-list">
-        <li>☐ 单词学习完成（听发音 + 跟读）</li>
-        <li>☐ 语法学习完成</li>
-        <li>☐ 阅读理解完成</li>
-        <li>☐ 15 道练习题完成</li>
-    </ul>
-    <p><strong>学习日期：</strong>_____________ &nbsp;&nbsp; <strong>实际用时：</strong>_____ 分钟 &nbsp;&nbsp; <strong>家长签字：</strong>_____________</p>
-
-    <div class="preview">
-        <h3>📌 明日预告</h3>
-        <p><strong>Day 4 主题：</strong>Animals (动物)</p>
-        <p><strong>新词数量：</strong>10 个</p>
-        <p><strong>复习内容：</strong>Day 1+2 的单词 (艾宾浩斯复习)</p>
-    </div>
-
-    <p style="text-align: center; margin-top: 30px; color: #666;">
-        <a href="ket-day2.html">⬅️ Day 2</a> | <a href="ket-day4.html">Day 4 ➡️</a>
-    </p>
+    <script>
+        let synth = window.speechSynthesis, isSpeaking = false, selectedVoice = null, voiceLoadAttempts = 0;
+        function checkSpeechSupport() { if (!('speechSynthesis' in window)) { alert('您的浏览器不支持语音播放功能，请使用 Chrome、Safari 或 Edge 浏览器。'); return false; } return true; }
+        function getBestEnglishVoice() { const voices = synth.getVoices(); let voice = voices.find(v => v.name === 'Google US English'); if (!voice) voice = voices.find(v => v.name === 'Microsoft Aria Online (Natural)' || v.name === 'Microsoft Guy Online (Natural)'); if (!voice) voice = voices.find(v => v.name === 'Samantha' || v.name === 'Karen'); if (!voice) voice = voices.find(v => v.lang === 'en-US'); if (!voice) voice = voices.find(v => v.lang.startsWith('en')); return voice; }
+        function updateVoiceStatus() { const statusEl = document.getElementById('voiceStatus'); if (statusEl) { if (selectedVoice) { statusEl.textContent = '🎤 ' + selectedVoice.name + ' (' + selectedVoice.lang + ')'; statusEl.style.color = '#28a745'; } else { statusEl.textContent = '⚠️ 未找到语音'; statusEl.style.color = '#dc3545'; } } }
+        function initVoice() { if (!checkSpeechSupport()) return; voiceLoadAttempts++; selectedVoice = getBestEnglishVoice(); if (selectedVoice) { updateVoiceStatus(); console.log('✅ 语音加载成功:', selectedVoice.name); } else if (voiceLoadAttempts < 5) { setTimeout(initVoice, 200); } else { updateVoiceStatus(); console.warn('⚠️ 语音加载超时，将使用默认语音'); } }
+        function speak(text, rate = 0.75) { if (!checkSpeechSupport()) return; synth.cancel(); const utterance = new SpeechSynthesisUtterance(text); if (selectedVoice) { utterance.voice = selectedVoice; } utterance.lang = selectedVoice ? selectedVoice.lang : 'en-US'; utterance.rate = rate; utterance.pitch = 1; utterance.volume = 1; utterance.onstart = function() { isSpeaking = true; }; utterance.onend = function() { isSpeaking = false; }; synth.speak(utterance); }
+        function speakAllWords() { if (!checkSpeechSupport()) return; const words = ['apple', 'banana', 'bread', 'cheese', 'chicken', 'coffee', 'egg', 'fish', 'juice', 'milk']; synth.cancel(); let delay = 0; words.forEach((word) => { setTimeout(() => { const utterance = new SpeechSynthesisUtterance(word); if (selectedVoice) { utterance.voice = selectedVoice; utterance.lang = selectedVoice.lang; } else { utterance.lang = 'en-US'; } utterance.rate = 0.7; synth.speak(utterance); }, delay); delay += 1500; }); isSpeaking = true; }
+        function speakGrammarExamples() { if (!checkSpeechSupport()) return; const examples = ['one apple, two apples', 'some bread, some milk', 'a cup of coffee, a glass of milk']; synth.cancel(); let delay = 0; examples.forEach((text) => { setTimeout(() => { speak(text, 0.75); }, delay); delay += 1200; }); }
+        function speakReading() { if (!checkSpeechSupport()) return; const text = "Hello! My name is Amy. I am 10 years old. I like healthy food. For breakfast, I have bread and milk. Sometimes I eat an egg. For lunch, I have rice and chicken at school. I like fish too. My favorite fruit is apples. I drink orange juice every day. I don't like coffee. It is for adults. What is your favorite food?"; speak(text, 0.75); }
+        function speakReadingSlow() { if (!checkSpeechSupport()) return; const text = "Hello! My name is Amy. I am 10 years old. I like healthy food. For breakfast, I have bread and milk. Sometimes I eat an egg. For lunch, I have rice and chicken at school. I like fish. It is for adults. What is your favorite food?"; speak(text, 0.55); }
+        function speakSection1() { if (!checkSpeechSupport()) return; synth.cancel(); speak("Part 1. 单词学习。Food & Drink.", 0.8); setTimeout(() => { speakAllWords(); }, 2000); }
+        function speakSection2() { if (!checkSpeechSupport()) return; synth.cancel(); speak("Part 2. 语法知识点。Countable and Uncountable Nouns.", 0.8); setTimeout(() => { speakGrammarExamples(); }, 2000); }
+        function speakSection3() { if (!checkSpeechSupport()) return; synth.cancel(); speak("Part 3. 阅读理解。My Favorite Food.", 0.8); setTimeout(() => { speakReading(); }, 2000); }
+        function stopSpeaking() { if (synth) { synth.cancel(); isSpeaking = false; } }
+        window.addEventListener('load', function() { initVoice(); setTimeout(initVoice, 100); setTimeout(initVoice, 500); setTimeout(initVoice, 1000); });
+        if (speechSynthesis.onvoiceschanged !== undefined) { speechSynthesis.onvoiceschanged = function() { selectedVoice = getBestEnglishVoice(); updateVoiceStatus(); }; }
+        document.querySelectorAll('.option input[type="radio"]').forEach(input => { input.addEventListener('change', function() { this.closest('.question').querySelectorAll('.option').forEach(opt => { opt.classList.remove('selected'); }); this.closest('.option').classList.add('selected'); }); });
+        document.getElementById('quizForm').addEventListener('submit', function(e) { e.preventDefault(); let score = 0; const total = 30; const feedback = []; const answers = { q1: { answer: 'B', explain: 'apple 以元音音素开头，用 an' }, q2: { answer: 'A', explain: 'milk 是不可数名词，用 some' }, q3: { answer: 'B', explain: 'How many 后接可数名词复数' }, q4: { answer: 'A', explain: 'coffee 不可数，用 a cup of 表示一杯' }, q5: { answer: 'C', explain: 'Milk 对健康有益' }, q6: { answer: 'B', explain: 'bread 是不可数名词，用 is' }, q7: { answer: 'A', explain: 'Would you like... 是礼貌询问' }, q8: { answer: 'C', explain: 'cheese 是不可数名词，可以直接用' }, q9: { answer: 'A', explain: 'egg 以元音音素开头，用 an' }, q10: { answer: 'B', explain: 'Fish 是第三人称单数，动词加 -s' }, q11: { answer: 'B', explain: '文中说 I am 10 years old.' }, q12: { answer: 'A', explain: '文中说 I have bread and milk for breakfast.' }, q13: { answer: 'C', explain: '文中说 I have rice and chicken at school.' }, q14: { answer: 'B', explain: '文中说 My favorite fruit is apples.' }, q15: { answer: 'A', explain: '文中说 I don't like coffee.' } }; for (let i = 1; i <= 15; i++) { const qName = 'q' + i; const question = document.querySelector('.question[data-id="' + i + '"]'); const correctAnswer = answers[qName].answer; let userAnswer = ''; let isCorrect = false; const radio = question.querySelector('input[type="radio"]:checked'); const textInput = question.querySelector('input[type="text"]'); if (radio) { userAnswer = radio.value; } else if (textInput) { userAnswer = textInput.value.trim().toLowerCase(); } if (Array.isArray(correctAnswer)) { isCorrect = correctAnswer.some(ans => userAnswer.toLowerCase() === ans.toLowerCase()); } else { isCorrect = userAnswer.toLowerCase() === correctAnswer.toLowerCase(); } if (isCorrect) { score += 2; feedback.push('<div class="feedback-item feedback-correct">✅ 第' + i + '题：正确</div>'); } else { const correctText = Array.isArray(correctAnswer) ? correctAnswer[0] : correctAnswer; feedback.push('<div class="feedback-item feedback-wrong">❌ 第' + i + '题：错误 | 正确答案：' + correctText + ' | ' + answers[qName].explain + '</div>'); } } const percentage = Math.round((score / total) * 100); document.getElementById('scoreDisplay').textContent = score + ' / ' + total; document.getElementById('percentageDisplay').textContent = '正确率：' + percentage + '%'; document.getElementById('feedbackBox').innerHTML = feedback.join(''); document.getElementById('resultBox').style.display = 'block'; document.getElementById('resultBox').scrollIntoView({ behavior: 'smooth' }); const resultBox = document.getElementById('resultBox'); if (percentage >= 90) { resultBox.style.background = 'linear-gradient(135deg, #11998e 0%, #38ef7d 100%)'; } else if (percentage >= 70) { resultBox.style.background = 'linear-gradient(135deg, #667eea 0%, #764ba2 100%)'; } else if (percentage >= 60) { resultBox.style.background = 'linear-gradient(135deg, #f093fb 0%, #f5576c 100%)'; } else { resultBox.style.background = 'linear-gradient(135deg, #eb3349 0%, #f45c43 100%)'; } });
+    </script>
 </body>
 </html>
